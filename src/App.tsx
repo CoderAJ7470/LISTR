@@ -1,5 +1,9 @@
+import Wrapper from './components/Wrapper';
+
+import './styles/main.scss';
+
 function App() {
-  return <div>Hello LISTR!</div>;
+  return <Wrapper />;
 }
 
 export default App;
