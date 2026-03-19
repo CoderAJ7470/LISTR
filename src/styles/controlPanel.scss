@@ -2,8 +2,24 @@
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
   border-bottom: 2px solid rgb(2, 39, 130);
+  position: sticky;
+  top: 0;
+  background-color: var(--white);
 }
 
 .fa-circle-plus {
-  color: #22c55e;
+  color: var(--action-color-green);
+}
+
+.create-list-button {
+  padding: var(--button-padding);
+  margin-left: 0.5rem;
+  background: none;
+  border: 1px solid var(--action-color-green);
+  border-radius: 5px;
+
+  &:active {
+    color: var(--white);
+    background-color: var(--action-color-green);
+  }
 }

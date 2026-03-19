@@ -1,8 +1,25 @@
+// Styl;es common to upper and lower parts of each tab
+%tab-upper-lower {
+  padding: 0.5rem;
+}
+
 .tab-wrapper {
   border: 1px solid rgb(2, 39, 130);
   border-radius: 5px;
+  padding: 0.5rem;
 
   &:not(:last-of-type) {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  // Upper tab
+  .tab-upper {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--action-color-green);
+  }
+
+  // Lower tab
+  .tab-lower {
+    padding-top: 0.5rem;
   }
 }

@@ -1,6 +1,7 @@
 .wrapper {
   width: 90%;
-  height: 90vh;
-  margin: 1rem;
+  max-width: 800px;
+  height: 95vh;
   overflow-y: auto;
+  margin: 1rem auto;
 }
