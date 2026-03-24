@@ -2,20 +2,21 @@ import { Link } from 'react-router-dom';
 import Tab from './Tab';
 
 // placeholder type for now, will change later
-type TabType = {
+type Tab = {
   id: string;
   name: string;
 };
 
 // placeholder type for now, will change later
-type ListType = {
+type List = {
   id: string;
   name: string;
-  tabs: TabType[];
+  numberOfItems: number;
+  tabs: Tab[];
 };
 
 // TEMP: placeholder data (replace with Redux/backend later)
-const lists: ListType[] = [];
+const lists: List[] = [];
 
 const List = () => {
   // Show empty state if user has not created any lists yet
@@ -31,7 +32,7 @@ const List = () => {
   return (
     <div className='list-wrapper'>
       {lists.map((list) => (
-        <div key={list.id} className='single-list'>
+        <div key={list.id} className='list'>
           <h3>{list.name}</h3>
           <div className='tabs-wrapper'>
             {list.tabs.length === 0 ? (

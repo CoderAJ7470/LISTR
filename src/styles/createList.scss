@@ -1,0 +1,38 @@
+.create-new-list h3 {
+  margin-top: 0;
+}
+
+.create-list-form {
+  display: flex;
+  flex-direction: column;
+
+  & label {
+    margin-bottom: 1rem;
+  }
+
+  & input {
+    margin-bottom: 1.5rem;
+    border: none;
+    border-bottom: 1px solid var(--off-black);
+  }
+
+  & button {
+    border-radius: 5px;
+  }
+
+  & .form-create-list-button {
+    background-color: var(--action-color-green);
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  & .cancel-button {
+    background: transparent;
+    border: 1px solid var(--dark-beige);
+    color: var(--off-black);
+  }
+
+  & .fa-arrow-right {
+    color: var(--white);
+  }
+}

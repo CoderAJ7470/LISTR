@@ -9,7 +9,7 @@ const ControlPanel = () => {
     <div className='add-new-list'>
       <i className='fa-solid fa-circle-plus'></i>
       <button
-        className='create-list-button'
+        className='control-panel-create-list-button'
         onClick={() => navigate('/create-list')}
       >
         Create a new list

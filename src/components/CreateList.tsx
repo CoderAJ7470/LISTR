@@ -1,20 +1,44 @@
-import { Link } from 'react-router-dom';
+import '../styles/createList.scss';
+
+import { useNavigate } from 'react-router-dom';
 
 const CreateList = () => {
-  return (
-    <div className='create-new-list'>
-      <h3>Create a new list</h3>
+  const navigate = useNavigate();
 
-      <p>
-        Use the form below to create your list. You can always edit your list
-        later as needed. <Link to='/'>Go back to main view.</Link>
-      </p>
-    </div>
-    // <form action=''>
-    //   <label htmlFor=''>
-    //     <input type='text' />
-    //   </label>
-    // </form>
+  return (
+    <>
+      <div className='create-new-list'>
+        <h3>Create a new list - Step 1</h3>
+
+        <p>
+          Use the form below to start creating your list. You can always edit
+          your list later as needed. <br /> * - Denotes required fields.
+        </p>
+      </div>
+
+      <form className='create-list-form' action=''>
+        <label htmlFor='listName'>*List Name:</label>
+        <input id='listName' type='text' name='listName' />
+        <label htmlFor='numberOfItems'>*Number of list items:</label>
+        <input
+          type='text'
+          id='numberOfItems'
+          inputMode='numeric'
+          pattern='[0-9]*'
+          name='numberOfItems'
+        />
+        <button className='form-create-list-button' type='submit'>
+          Go to Step 2 <i className='fa-solid fa-arrow-right'></i>
+        </button>
+        <button
+          className='cancel-button'
+          type='button'
+          onClick={() => navigate('/')}
+        >
+          Cancel and go back to home page
+        </button>
+      </form>
+    </>
   );
 };
 

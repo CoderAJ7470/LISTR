@@ -1,7 +1,14 @@
 :root {
-  // colors
-  --action-color-green: #22c55e;
-  --white: #ffffff;
+  // main color palette
+  --off-black: #07020d;
+  --sky-blue: #5db7de;
+  --cream: #f1e9db;
+  --beige: #a39b8b;
+  --dark-beige: #716a5c;
+  --white: #fff;
+
+  // for user actions
+  --action-color-green: #024f1e;
 
   //padding
   --button-padding: 0.2rem;
@@ -12,8 +19,13 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  letter-spacing: 0.5px;
 }
 
 .hyperlinks {
   cursor: pointer;
+}
+
+button {
+  padding: 0.5rem;
 }
