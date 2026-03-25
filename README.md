@@ -2,7 +2,7 @@ LISTR - An idea I have for an app that allows you make lists. Essentially a to-d
 
 - **List** → List all items you want in different, itemized to-do lists
 - **Index** → tab reordering, pinned lists, quick-jump search
-- **Schedule** → Schedukle calendar events/alerts for list items
+- **Schedule** → Schedule calendar events/alerts for list items
 - **Track** → progress meters of some kind (circles/bars/squares - tbd)
 - **Remind** → alert badge, calendar reminders
 
