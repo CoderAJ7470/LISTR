@@ -2,9 +2,9 @@ LISTR - An idea I have for an app that allows you make lists. Essentially a to-d
 
 - **List** → List all items you want in different, itemized to-do lists
 - **Index** → tab reordering, pinned lists, quick-jump search
-- **Schedule** → weekly indicators, recurrence rules
-- **Track** → progress meters of some kind (circles/bars/squares - tbd), streaks, completion stats
-- **Remind** → soft nudges, visual alerts (with/without notifications - to be determined)
+- **Schedule** → Schedukle calendar events/alerts for list items
+- **Track** → progress meters of some kind (circles/bars/squares - tbd)
+- **Remind** → alert badge, calendar reminders
 
 This side project is really just for me to get better at creating fullstack apps. As such, it will have a backend of some sort, user accounts and data persistence, to store/remove lists and other data, in addition to other stuff.
 
