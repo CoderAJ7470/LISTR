@@ -1,34 +1,26 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Tab from './Tab';
 
-// placeholder type for now, will change later
-type Tab = {
-  id: string;
-  name: string;
-};
+// placeholder type for now
+type Tab = { id: string; name: string };
 
-// placeholder type for now, will change later
-type List = {
-  id: string;
-  name: string;
-  numberOfItems: number;
-  tabs: Tab[];
-};
+// placeholder type for now
+type List = { id: string; name: string; numberOfItems: number; tabs: Tab[] };
 
-// TEMP: placeholder data (replace with Redux/backend later)
+// TEMP: placeholder data
 const lists: List[] = [];
 
 const List = () => {
-  // Show empty state if user has not created any lists yet
   if (lists.length === 0) {
     return (
       <div className='no-lists'>
         You have not created a list yet.{' '}
-        <Link to='/create-list'>Create one now</Link>.
+        <Link href='/create-list/step-1'>Create one now</Link>.
       </div>
     );
   }
 
+  // will most probabkly change later; just an example flow for now
   return (
     <div className='list-wrapper'>
       {lists.map((list) => (

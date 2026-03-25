@@ -1,16 +1,17 @@
-import { useNavigate } from 'react-router-dom';
+'use client';
 
+import { useRouter } from 'next/navigation';
 import '../styles/controlPanel.scss';
 
 const ControlPanel = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <div className='add-new-list'>
       <i className='fa-solid fa-circle-plus'></i>
       <button
         className='control-panel-create-list-button'
-        onClick={() => navigate('/create-list')}
+        onClick={() => router.push('/create-list/step-1')}
       >
         Create a new list
       </button>
