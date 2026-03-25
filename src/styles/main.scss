@@ -14,12 +14,25 @@
   --button-padding: 0.2rem;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Overpass', sans-serif;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
   letter-spacing: 0.5px;
+  font-size: 1rem;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
 
 .hyperlinks {
@@ -28,4 +41,10 @@ body {
 
 button {
   padding: 0.5rem;
+}
+
+.form-inputs {
+  margin-bottom: 1.5rem;
+  border: none;
+  border-bottom: 1px solid var(--off-black);
 }

@@ -1,28 +1,28 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCreateListForm } from '../../context/CreateListFormContext';
 import '../../../src/styles/createList.scss';
 
-const CreateList = () => {
+const CreateListStep1 = () => {
   const router = useRouter();
 
-  const [listName, setListName] = useState('');
-  const [numberOfItems, setNumberOfItems] = useState('');
+  // Grabbing the context setters so we can send in the number of items converted to number (from a string type)
+  const { setListName, setNumberOfItems } = useCreateListForm();
 
-  const isValid = listName.trim() !== '' && Number(numberOfItems) > 0;
+  // Local state for inputs
+  const [listNameInput, setListNameInput] = useState('');
+  const [numberOfItemsInput, setNumberOfItemsInput] = useState('');
 
-  const handleListNameOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setListName(e.target.value);
-  };
-
-  const handleNumOfItemsOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNumberOfItems(e.target.value);
-  };
+  const isValid = listNameInput.trim() !== '' && Number(numberOfItemsInput) > 0;
 
   const handleStep2 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isValid) return;
+
+    // Update Context with proper types
+    setListName(listNameInput);
+    setNumberOfItems(Number(numberOfItemsInput)); // number passed to Context
 
     router.push('/create-list/step-2');
   };
@@ -46,20 +46,20 @@ const CreateList = () => {
         <input
           id='listName'
           type='text'
-          name='listName'
-          value={listName}
-          onChange={handleListNameOnChange}
+          className='form-inputs'
+          value={listNameInput}
+          onChange={(e) => setListNameInput(e.target.value)}
         />
 
         <label htmlFor='numberOfItems'>*Number of list items:</label>
         <input
-          type='text'
           id='numberOfItems'
+          type='text'
+          className='form-inputs'
           inputMode='numeric'
           pattern='[0-9]*'
-          name='numberOfItems'
-          value={numberOfItems}
-          onChange={handleNumOfItemsOnChange}
+          value={numberOfItemsInput}
+          onChange={(e) => setNumberOfItemsInput(e.target.value)}
         />
 
         <button
@@ -67,7 +67,8 @@ const CreateList = () => {
           type='submit'
           disabled={!isValid}
         >
-          Go to Step 2 <i className='fa-solid fa-arrow-right'></i>
+          Go to Step 2{' '}
+          <i className='fa-solid fa-arrow-right' aria-disabled={!isValid}></i>
         </button>
 
         <button className='cancel-button' type='button' onClick={handleCancel}>
@@ -78,4 +79,4 @@ const CreateList = () => {
   );
 };
 
-export default CreateList;
+export default CreateListStep1;

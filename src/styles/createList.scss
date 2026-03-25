@@ -10,12 +10,6 @@
     margin-bottom: 1rem;
   }
 
-  & input {
-    margin-bottom: 1.5rem;
-    border: none;
-    border-bottom: 1px solid var(--off-black);
-  }
-
   & button {
     border-radius: 5px;
   }
@@ -34,5 +28,11 @@
 
   & .fa-arrow-right {
     color: var(--white);
+  }
+}
+
+.create-list-item {
+  & .form-inputs {
+    width: 100%;
   }
 }
