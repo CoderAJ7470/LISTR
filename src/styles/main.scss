@@ -2,10 +2,12 @@
   // main color palette
   --off-black: #07020d;
   --sky-blue: #5db7de;
+  --dark-blue: #001d6d;
   --cream: #f1e9db;
   --beige: #a39b8b;
   --dark-beige: #716a5c;
   --white: #fff;
+  --required-or-warning: #bd0000;
 
   // for user actions
   --action-color-green: #024f1e;
@@ -33,18 +35,4 @@ button,
 textarea,
 select {
   font: inherit;
-}
-
-.hyperlinks {
-  cursor: pointer;
-}
-
-button {
-  padding: 0.5rem;
-}
-
-.form-inputs {
-  margin-bottom: 1.5rem;
-  border: none;
-  border-bottom: 1px solid var(--off-black);
 }

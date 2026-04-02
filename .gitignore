@@ -38,3 +38,6 @@ dist-ssr/
 
 # Coverage folder
 coverage/
+
+# Other files/folders
+folder-structure.txt
