@@ -7,63 +7,59 @@ import { useCreateListForm } from '../../context/CreateListFormContext';
 import '../../../src/styles/createList.scss';
 
 const CreateListStep2 = () => {
-  const [firstItemValue, setFirstItemValue] = useState('');
-  const [firstItemError, setFirstItemError] = useState('');
-
   const router = useRouter();
   const { numberOfItems } = useCreateListForm();
 
-  // Handle the user input from the first entry of the list item entry form
-  const handleFirstItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setFirstItemValue(value);
+  const [items, setItems] = useState<string[]>(
+    Array.from({ length: numberOfItems }, () => ''),
+  );
 
-    if (firstItemError && value !== '') {
-      setFirstItemError('');
-    }
-  };
+  // First input-specific error (required)
+  const [firstItemError, setFirstItemError] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (firstItemValue.trim() === '') {
-      setFirstItemError('First item cannot be blank');
+    // Ensure first item is filled
+    if (items[0].trim() === '') {
+      setFirstItemError('At least 1 item required');
+
+      // Scroll first input into view
+      const firstInput = document.getElementById('item-0');
+      firstInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
       return;
     }
 
-    // continue later (next step / review page)
+    // Automatically remove any blank inputs after index 0
+    const cleanedItems = [
+      items[0],
+      ...items.slice(1).filter((item) => item.trim() !== ''),
+    ];
+    setItems(cleanedItems);
+
+    // Clear first-item error if any
+    setFirstItemError('');
+
+    // Continue with submission logic
+    console.log('Final items to submit:', cleanedItems);
   };
 
-  const handleCancel = () => {
+  const handleCancelButton = () => {
     router.push('/create-list/step-1');
   };
 
-  // Create an array so we can map over it to dynamically generate the list item labels and inputs
-  const itemInputs = Array.from({ length: numberOfItems }, (_, index) => (
+  // Generate input fields dynamically
+  const itemInputs = items.map((item, index) => (
     <div className='create-list-item' key={index}>
       {index === 0 ? (
-        <div className='list-item-wrapper'>
-          <label htmlFor={`item-${index}`}>
-            <span className='required-asterisks'>*</span> Item/Desc {index + 1}:
-          </label>
-          <button
-            type='button'
-            className='remove-create-list-item-button required-or-warning'
-            aria-label={`Remove item ${index + 1}`}
-          >
-            <i className='fa-solid fa-circle-minus'></i>
-          </button>
-        </div>
+        <label htmlFor={`item-${index}`}>
+          <span className='required-asterisks'>*</span> Item/Description{' '}
+          {index + 1}:
+        </label>
       ) : (
         <div className='list-item-wrapper'>
-          <label htmlFor={`item-${index}`}>Item/Desc {index + 1}:</label>
-          <button
-            type='button'
-            className='remove-create-list-item-button required-or-warning'
-            aria-label={`Remove item ${index + 1}`}
-          >
-            <i className='fa-solid fa-circle-minus'></i>
-          </button>
+          <label htmlFor={`item-${index}`}>Item/Description {index + 1}:</label>
         </div>
       )}
 
@@ -72,8 +68,17 @@ const CreateListStep2 = () => {
         id={`item-${index}`}
         className='step-2-form-inputs'
         name={`item-${index}`}
-        value={index === 0 ? firstItemValue : undefined}
-        onChange={index === 0 ? handleFirstItemChange : undefined}
+        value={item}
+        onChange={(e) => {
+          const updatedItems = [...items];
+          updatedItems[index] = e.target.value;
+          setItems(updatedItems);
+
+          // Clear first-item error if fixed
+          if (index === 0 && firstItemError && e.target.value.trim() !== '') {
+            setFirstItemError('');
+          }
+        }}
       />
 
       {index === 0 && firstItemError && (
@@ -87,22 +92,29 @@ const CreateListStep2 = () => {
       <h3>Create a new list - Step 2</h3>
 
       <p>
-        Fill out your list items details below. You can always make changes
-        later as needed. <br />* - Denotes required fields.
+        Fill out your list items below. Any blank inputs (except the first one)
+        will automatically be removed when you create your list. You can always
+        make changes later as needed. <br />
+        <br />
+        <span className='required-asterisks'>*</span> - Denotes required fields.
       </p>
 
       <form className='create-list-form' onSubmit={handleSubmit}>
         {itemInputs}
 
         <button type='submit' className='form-create-list-button'>
-          Review & Confirm
+          Create my list <i className='fa-solid fa-arrow-right'></i>
         </button>
 
         <button type='button' className='step-2-add-items-button'>
           Add more items
         </button>
 
-        <button type='button' className='cancel-button' onClick={handleCancel}>
+        <button
+          type='button'
+          className='cancel-button'
+          onClick={handleCancelButton}
+        >
           Cancel and start over
         </button>
       </form>

@@ -62,11 +62,10 @@
     white-space: nowrap;
     pointer-events: none;
     border-radius: 4px;
-    padding: 4px 8px;
     font-size: 0.875rem;
     position: absolute;
-    top: 0;
-    right: 30px;
+    top: 0px;
+    right: 0;
   }
 }
 
@@ -102,15 +101,4 @@
 
 .list-item-wrapper {
   display: flex;
-}
-
-.remove-create-list-item-button {
-  background: none;
-  border: none;
-  padding: 0;
-
-  & .fa-circle-minus {
-    color: var(--required-or-warning);
-    background-color: var(--white);
-  }
 }

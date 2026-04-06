@@ -85,8 +85,8 @@ const CreateListStep1 = () => {
       <div className='create-new-list-header'>
         <h3>Create a new list - Step 1</h3>
         <p>
-          Use the form below to start creating your list. You can always edit
-          your list later as needed. <br />
+          Use the form below to start creating your list. If needed, you can
+          always edit your list after it has been created. <br />
           <span className='required-asterisks'>*</span> - Denotes required
           fields.
         </p>
@@ -111,7 +111,8 @@ const CreateListStep1 = () => {
         </div>
 
         <label className='step-1-labels' htmlFor='numberOfItems'>
-          <span className='required-asterisks'>*</span> Number of items:
+          <span className='required-asterisks'>*</span> How many items would you
+          like in your list?
         </label>
 
         <div className='input-wrapper'>
