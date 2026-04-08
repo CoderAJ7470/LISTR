@@ -14,10 +14,10 @@
   & .form-create-list-button {
     background-color: var(--action-color-green);
     color: var(--white);
-    margin-top: 1rem;
     margin-bottom: 1rem;
     border-radius: 5px;
     padding: 0.5rem;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.06);
   }
 
   & .cancel-button {
@@ -39,11 +39,21 @@
     margin-bottom: 1rem;
     padding: 0.5rem;
   }
+
+  .step-2-options {
+    background: var(--white);
+    flex-direction: column;
+    padding-bottom: 1rem;
+    display: flex;
+    position: sticky;
+    bottom: 0;
+  }
 }
 
 // For Step 2 - list items
 .create-list-item {
   position: relative;
+  margin-bottom: 1rem;
 
   & label {
     flex-grow: 1;
@@ -53,7 +63,6 @@
     width: 100%;
     border: none;
     border-bottom: 2px solid var(--off-black);
-    margin-bottom: 1rem;
     margin-top: 1rem;
   }
 

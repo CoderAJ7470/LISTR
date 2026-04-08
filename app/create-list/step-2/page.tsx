@@ -1,5 +1,6 @@
 'use client';
 
+import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateListForm } from '../../context/CreateListFormContext';
@@ -7,6 +8,8 @@ import { useCreateListForm } from '../../context/CreateListFormContext';
 import '../../../src/styles/createList.scss';
 
 const CreateListStep2 = () => {
+  const [openMoreItems, setOpenMoreItems] = useState(false);
+
   const router = useRouter();
   const { numberOfItems } = useCreateListForm();
 
@@ -92,32 +95,42 @@ const CreateListStep2 = () => {
       <h3>Create a new list - Step 2</h3>
 
       <p>
-        Fill out your list items below. Any blank inputs (except the first one)
-        will automatically be removed when you create your list. You can always
-        make changes later as needed. <br />
-        <br />
+        Fill out your {numberOfItems} list items below. Any blank inputs (except
+        the first one) will automatically be removed when you create your list.
+        You can always make changes later as needed. <br />
         <span className='required-asterisks'>*</span> - Denotes required fields.
       </p>
 
       <form className='create-list-form' onSubmit={handleSubmit}>
         {itemInputs}
 
-        <button type='submit' className='form-create-list-button'>
-          Create my list <i className='fa-solid fa-arrow-right'></i>
-        </button>
+        <section className='step-2-options'>
+          <button type='submit' className='form-create-list-button'>
+            Create my list <i className='fa-solid fa-arrow-right'></i>
+          </button>
 
-        <button type='button' className='step-2-add-items-button'>
-          Add more items
-        </button>
+          <button
+            type='button'
+            className='step-2-add-items-button'
+            onClick={() => setOpenMoreItems(true)}
+          >
+            Add more items
+          </button>
 
-        <button
-          type='button'
-          className='cancel-button'
-          onClick={handleCancelButton}
-        >
-          Cancel and start over
-        </button>
+          <button
+            type='button'
+            className='cancel-button'
+            onClick={handleCancelButton}
+          >
+            Cancel and start over
+          </button>
+        </section>
       </form>
+
+      <AddMoreInputsModal
+        showAddMoreInputsModal={openMoreItems}
+        setModalOpen={setOpenMoreItems}
+      />
     </div>
   );
 };

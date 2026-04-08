@@ -1,0 +1,20 @@
+.add-more-inputs-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4); // dark overlay
+  z-index: 1000;
+
+  & .add-more-inputs-modal {
+    width: 80%;
+    background: var(--white);
+    border: 2px solid var(--off-black);
+    border-radius: 5px;
+    padding: 2rem;
+  }
+}
