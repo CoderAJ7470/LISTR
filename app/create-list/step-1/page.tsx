@@ -61,7 +61,7 @@ const CreateListStep1 = () => {
     const value = e.target.value;
     setNumberOfItemsInput(value);
 
-    if (numberOfItemsError && numberOfItemsInput !== '') {
+    if (numberOfItemsError && value !== '') {
       setNumberOfItemsError('');
     }
   };

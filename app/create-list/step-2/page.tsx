@@ -20,6 +20,18 @@ const CreateListStep2 = () => {
   // First input-specific error (required)
   const [firstItemError, setFirstItemError] = useState('');
 
+  /**
+   * Add more item inputs for the user to fill and complete creating their list
+   *
+   * @param amount - The number of additional item inputs the user wants to create their list
+   * @returns  - just exits the function if the user enters a negative integer or non-integer
+   */
+  const handleConfirmAddMoreItems = (amount: number) => {
+    if (!Number.isInteger(amount) || amount < 1) return;
+
+    setItems((prev) => [...prev, ...Array.from({ length: amount }, () => '')]);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -95,9 +107,10 @@ const CreateListStep2 = () => {
       <h3>Create a new list - Step 2</h3>
 
       <p>
-        Fill out your {numberOfItems} list items below. Any blank inputs (except
+        Fill out your {items.length} list items below. Any blank inputs (except
         the first one) will automatically be removed when you create your list.
-        You can always make changes later as needed. <br />
+        You can always make changes later as needed. Please keep in mind only 40
+        items total are allowed per list. <br />
         <span className='required-asterisks'>*</span> - Denotes required fields.
       </p>
 
@@ -130,6 +143,7 @@ const CreateListStep2 = () => {
       <AddMoreInputsModal
         showAddMoreInputsModal={openMoreItems}
         setModalOpen={setOpenMoreItems}
+        onConfirm={handleConfirmAddMoreItems}
       />
     </div>
   );
