@@ -8,6 +8,7 @@ import { useCreateListForm } from '../../context/CreateListFormContext';
 import '../../../src/styles/createList.scss';
 
 const CreateListStep2 = () => {
+  const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);
 
   const router = useRouter();
@@ -16,6 +17,8 @@ const CreateListStep2 = () => {
   const [items, setItems] = useState<string[]>(
     Array.from({ length: numberOfItems }, () => ''),
   );
+
+  const remainingInputs = MAX_ITEMS - items.length;
 
   // First input-specific error (required)
   const [firstItemError, setFirstItemError] = useState('');
@@ -29,7 +32,14 @@ const CreateListStep2 = () => {
   const handleConfirmAddMoreItems = (amount: number) => {
     if (!Number.isInteger(amount) || amount < 1) return;
 
-    setItems((prev) => [...prev, ...Array.from({ length: amount }, () => '')]);
+    if (remainingInputs <= 0) return;
+
+    const safeAmount = Math.min(amount, remainingInputs);
+
+    setItems((prev) => [
+      ...prev,
+      ...Array.from({ length: safeAmount }, () => ''),
+    ]);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,17 +57,14 @@ const CreateListStep2 = () => {
     }
 
     // Automatically remove any blank inputs after index 0
-    const cleanedItems = [
+    const listWithBlanksRemoved = [
       items[0],
       ...items.slice(1).filter((item) => item.trim() !== ''),
     ];
-    setItems(cleanedItems);
+    setItems(listWithBlanksRemoved);
 
     // Clear first-item error if any
     setFirstItemError('');
-
-    // Continue with submission logic
-    console.log('Final items to submit:', cleanedItems);
   };
 
   const handleCancelButton = () => {
@@ -107,10 +114,14 @@ const CreateListStep2 = () => {
       <h3>Create a new list - Step 2</h3>
 
       <p>
-        Fill out your {items.length} list items below. Any blank inputs (except
-        the first one) will automatically be removed when you create your list.
-        You can always make changes later as needed. Please keep in mind only 40
-        items total are allowed per list. <br />
+        Fill out your {items.length} list items below.{' '}
+        <b>
+          Any blank inputs (except the first one) will automatically be removed
+          when you create your list.{' '}
+        </b>{' '}
+        Add additional inputs using the "Add more items" button below, but{' '}
+        <b>keep in mind your list can have only 40 items total.</b> You can
+        always make changes later as needed. <br />
         <span className='required-asterisks'>*</span> - Denotes required fields.
       </p>
 
@@ -126,6 +137,7 @@ const CreateListStep2 = () => {
             type='button'
             className='step-2-add-items-button'
             onClick={() => setOpenMoreItems(true)}
+            disabled={items.length >= MAX_ITEMS}
           >
             Add more items
           </button>
@@ -144,6 +156,7 @@ const CreateListStep2 = () => {
         showAddMoreInputsModal={openMoreItems}
         setModalOpen={setOpenMoreItems}
         onConfirm={handleConfirmAddMoreItems}
+        remainingInputs={remainingInputs}
       />
     </div>
   );

@@ -7,12 +7,14 @@ interface AddMoreInputsModalPropTypes {
   showAddMoreInputsModal: boolean;
   setModalOpen: (isOpen: boolean) => void;
   onConfirm: (amount: number) => void;
+  remainingInputs: number;
 }
 
 const AddMoreInputsModal = ({
   showAddMoreInputsModal,
   setModalOpen,
   onConfirm,
+  remainingInputs,
 }: AddMoreInputsModalPropTypes) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
@@ -29,8 +31,8 @@ const AddMoreInputsModal = ({
         >
           <p>
             Choose how many additional item inputs you would like to add below
-            to your list. Only enter whole positive numbers, and remember you
-            can only have a total of 40 items.
+            to your list. Only enter whole positive numbers, and{' '}
+            <b>remember you can only have a total of 40 items</b>.
           </p>
 
           <input
@@ -59,6 +61,13 @@ const AddMoreInputsModal = ({
 
               if (!Number.isInteger(amount) || amount < 1) {
                 setError('Enter a valid number (1 or more)');
+                return;
+              }
+
+              if (amount > remainingInputs) {
+                remainingInputs === 1
+                  ? setError(`You can only add ${remainingInputs} more item`)
+                  : setError(`You can only add ${remainingInputs} more items`);
                 return;
               }
 

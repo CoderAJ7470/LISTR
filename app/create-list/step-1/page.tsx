@@ -35,7 +35,7 @@ const CreateListStep1 = () => {
 
     // Validate number of items using helper
     if (!validateNumberOfItems(numberOfItemsInput)) {
-      setNumberOfItemsError('Enter a whole number > 0');
+      setNumberOfItemsError('Must be between 1 and 40 (inclusive)');
       valid = false;
     } else {
       setNumberOfItemsError('');
@@ -92,7 +92,7 @@ const CreateListStep1 = () => {
         </p>
       </div>
 
-      <form className='create-list-form' onSubmit={handleStep2}>
+      <form className='create-list-form' onSubmit={handleStep2} noValidate>
         <label className='step-1-labels' htmlFor='listName'>
           <span className='required-asterisks'>*</span> List Name:
         </label>
@@ -106,13 +106,13 @@ const CreateListStep1 = () => {
             onChange={handleOnListNameInputChange}
           />
           {listNameError && (
-            <span className='error-message'>{listNameError}</span>
+            <span className='step-1-error-message'>{listNameError}</span>
           )}
         </div>
 
         <label className='step-1-labels' htmlFor='numberOfItems'>
-          <span className='required-asterisks'>*</span> How many items would you
-          like in your list?
+          <span className='required-asterisks'>*</span> How many items do you
+          need in your list? NOTE: Maximum number of items per list is 40.
         </label>
 
         <div className='input-wrapper'>
@@ -126,7 +126,7 @@ const CreateListStep1 = () => {
             onChange={handleOnNumberOfItemsInputChange}
           />
           {numberOfItemsError && (
-            <span className='error-message'>{numberOfItemsError}</span>
+            <span className='step-1-error-message'>{numberOfItemsError}</span>
           )}
         </div>
 

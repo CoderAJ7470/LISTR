@@ -5,5 +5,10 @@ export const validateListName = (name: string) => {
 
 export const validateNumberOfItems = (value: string) => {
   const num = Number(value);
-  return value.trim() !== '' && !isNaN(num) && Number.isInteger(num) && num > 0;
+
+  if (!Number.isInteger(num)) return false;
+  if (num < 1) return false;
+  if (num > 40) return false;
+
+  return true;
 };
