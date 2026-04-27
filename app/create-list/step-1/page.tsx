@@ -35,7 +35,7 @@ const CreateListStep1 = () => {
 
     // Validate number of items using helper
     if (!validateNumberOfItems(numberOfItemsInput)) {
-      setNumberOfItemsError('Must be between 1 and 40 (inclusive)');
+      setNumberOfItemsError('Must be a whole number between 1 & 40');
       valid = false;
     } else {
       setNumberOfItemsError('');

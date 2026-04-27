@@ -4,6 +4,7 @@ import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateListForm } from '../../context/CreateListFormContext';
+import { v4 as uuidv4 } from 'uuid';
 
 import '../../../src/styles/createList.scss';
 
@@ -14,8 +15,11 @@ const CreateListStep2 = () => {
   const router = useRouter();
   const { numberOfItems } = useCreateListForm();
 
-  const [items, setItems] = useState<string[]>(
-    Array.from({ length: numberOfItems }, () => ''),
+  const [items, setItems] = useState(
+    Array.from({ length: numberOfItems }, () => ({
+      id: uuidv4(),
+      itemText: '',
+    })),
   );
 
   const remainingInputs = MAX_ITEMS - items.length;
@@ -38,7 +42,10 @@ const CreateListStep2 = () => {
 
     setItems((prev) => [
       ...prev,
-      ...Array.from({ length: safeAmount }, () => ''),
+      ...Array.from({ length: safeAmount }, () => ({
+        id: uuidv4(),
+        itemText: '',
+      })),
     ]);
   };
 
@@ -46,21 +53,25 @@ const CreateListStep2 = () => {
     e.preventDefault();
 
     // Ensure first item is filled
-    if (items[0].trim() === '') {
+    const firstItem = items[0];
+
+    if (!firstItem || firstItem.itemText.trim() === '') {
       setFirstItemError('At least 1 item required');
 
       // Scroll first input into view
-      const firstInput = document.getElementById('item-0');
+      const firstInput = firstItem
+        ? document.getElementById(`item-${firstItem.id}`)
+        : null;
+
       firstInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
       return;
     }
 
     // Automatically remove any blank inputs after index 0
-    const listWithBlanksRemoved = [
-      items[0],
-      ...items.slice(1).filter((item) => item.trim() !== ''),
-    ];
+    const listWithBlanksRemoved = items.filter(
+      (item, index) => index === 0 || item.itemText.trim() !== '',
+    );
     setItems(listWithBlanksRemoved);
 
     // Clear first-item error if any
@@ -73,28 +84,36 @@ const CreateListStep2 = () => {
 
   // Generate input fields dynamically
   const itemInputs = items.map((item, index) => (
-    <div className='create-list-item' key={index}>
+    <div className='create-list-item' key={item.id}>
       {index === 0 ? (
-        <label htmlFor={`item-${index}`}>
+        <label htmlFor={`item-${item.id}`}>
           <span className='required-asterisks'>*</span> Item/Description{' '}
           {index + 1}:
         </label>
       ) : (
         <div className='list-item-wrapper'>
-          <label htmlFor={`item-${index}`}>Item/Description {index + 1}:</label>
+          <label htmlFor={`item-${item.id}`}>
+            Item/Description {index + 1}:
+          </label>
         </div>
       )}
 
       <input
         type='text'
-        id={`item-${index}`}
+        id={`item-${item.id}`}
         className='step-2-form-inputs'
-        name={`item-${index}`}
-        value={item}
+        name={`item-${item.id}`}
+        value={item.itemText}
         onChange={(e) => {
-          const updatedItems = [...items];
-          updatedItems[index] = e.target.value;
-          setItems(updatedItems);
+          const value = e.target.value;
+
+          setItems((prev) =>
+            prev.map((currItem) =>
+              currItem.id === item.id
+                ? { ...currItem, itemText: value }
+                : currItem,
+            ),
+          );
 
           // Clear first-item error if fixed
           if (index === 0 && firstItemError && e.target.value.trim() !== '') {

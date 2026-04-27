@@ -11,14 +11,9 @@
 
   // for user actions
   --action-color-green: #024f1e;
-
-  //padding
-  --button-padding: 0.2rem;
 }
 
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
 }
 
