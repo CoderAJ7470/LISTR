@@ -13,7 +13,8 @@ const CreateListStep2 = () => {
   const [openMoreItems, setOpenMoreItems] = useState(false);
 
   const router = useRouter();
-  const { numberOfItems } = useCreateListForm();
+  const { numberOfItems, setItems: setFinalizedListItems } =
+    useCreateListForm();
 
   const [items, setItems] = useState(
     Array.from({ length: numberOfItems }, () => ({
@@ -31,7 +32,7 @@ const CreateListStep2 = () => {
    * Add more item inputs for the user to fill and complete creating their list
    *
    * @param amount - The number of additional item inputs the user wants to create their list
-   * @returns  - just exits the function if the user enters a negative integer or non-integer
+   * @returns - just exits the function if the user enters a negative integer or non-integer
    */
   const handleConfirmAddMoreItems = (amount: number) => {
     if (!Number.isInteger(amount) || amount < 1) return;
@@ -72,10 +73,12 @@ const CreateListStep2 = () => {
     const listWithBlanksRemoved = items.filter(
       (item, index) => index === 0 || item.itemText.trim() !== '',
     );
-    setItems(listWithBlanksRemoved);
+    setFinalizedListItems(listWithBlanksRemoved);
 
     // Clear first-item error if any
     setFirstItemError('');
+
+    router.push('/');
   };
 
   const handleCancelButton = () => {

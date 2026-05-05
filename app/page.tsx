@@ -1,5 +1,11 @@
-import HomePage from '../src/components/HomePage';
+import ControlPanel from '../src/components/ControlPanel';
+import List from '../src/components/List';
 
 export default function Page() {
-  return <HomePage />;
+  return (
+    <>
+      <ControlPanel />
+      <List />
+    </>
+  );
 }

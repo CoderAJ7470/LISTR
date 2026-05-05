@@ -2,11 +2,18 @@
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
+type ListItem = {
+  id: string;
+  itemText: string;
+};
+
 interface CreateListFormContext {
   listName: string;
   setListName: (name: string) => void;
   numberOfItems: number;
   setNumberOfItems: (num: number) => void;
+  items: ListItem[];
+  setItems: React.Dispatch<React.SetStateAction<ListItem[]>>;
 }
 
 const CreateListFormContext = createContext<CreateListFormContext | undefined>(
@@ -32,10 +39,18 @@ interface ProviderProps {
 export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [listName, setListName] = useState('');
   const [numberOfItems, setNumberOfItems] = useState(0);
+  const [items, setItems] = useState<ListItem[]>([]);
 
   return (
     <CreateListFormContext.Provider
-      value={{ listName, setListName, numberOfItems, setNumberOfItems }}
+      value={{
+        listName,
+        setListName,
+        numberOfItems,
+        setNumberOfItems,
+        items,
+        setItems,
+      }}
     >
       {children}
     </CreateListFormContext.Provider>
