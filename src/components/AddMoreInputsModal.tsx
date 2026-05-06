@@ -17,7 +17,30 @@ const AddMoreInputsModal = ({
   remainingInputs,
 }: AddMoreInputsModalPropTypes) => {
   const [value, setValue] = useState('');
-  const [error, setError] = useState('');
+
+  const numericValue = Number(value);
+  const isValidNumber = Number.isInteger(numericValue) && numericValue >= 1;
+
+  const inputsLeft = isValidNumber
+    ? remainingInputs - numericValue
+    : remainingInputs;
+
+  let helperMessage = '';
+  let isErrorMessage = false;
+  let isWarningMessage = false;
+
+  if (value === '') {
+    helperMessage = `You have ${remainingInputs} inputs left.`;
+  } else if (!isValidNumber) {
+    helperMessage = 'Enter a valid number.';
+    isErrorMessage = true;
+  } else if (inputsLeft < 0) {
+    helperMessage = 'Maximum 40 inputs only.';
+    isErrorMessage = true;
+  } else {
+    helperMessage = `You have ${inputsLeft} inputs left.`;
+    isWarningMessage = inputsLeft === 0;
+  }
 
   return (
     showAddMoreInputsModal && (
@@ -31,12 +54,19 @@ const AddMoreInputsModal = ({
         >
           <p>
             Choose how many additional item inputs you would like to add below
-            to your list. Only enter whole positive numbers, and{' '}
-            <b>remember you can only have a total of 40 items</b>.
+            to your list. Only enter whole positive numbers.
+          </p>
+
+          <p>
+            <span
+              className={`error-span ${isErrorMessage ? 'error-text' : ''} ${isWarningMessage ? 'warning-text' : ''}`}
+            >
+              {helperMessage}
+            </span>
           </p>
 
           <input
-            type='number'
+            type='text'
             inputMode='numeric'
             pattern='[0-9]*'
             min='1'
@@ -45,33 +75,18 @@ const AddMoreInputsModal = ({
             value={value}
             onChange={(e) => {
               setValue(e.target.value);
-              setError('');
             }}
           />
-          <span
-            className={`additional-inputs-error-message ${!error ? 'error-hidden' : ''}`}
-          >
-            {error}
-          </span>
 
           <button
             className='confirm-additional-inputs'
+            disabled={
+              !Number.isInteger(numericValue) ||
+              numericValue < 1 ||
+              numericValue > remainingInputs
+            }
             onClick={() => {
               const amount = Number(value);
-
-              if (!Number.isInteger(amount) || amount < 1) {
-                setError('Enter a valid number (1 or more)');
-                return;
-              }
-
-              if (amount > remainingInputs) {
-                remainingInputs === 1
-                  ? setError(`You can only add ${remainingInputs} more item`)
-                  : setError(`You can only add ${remainingInputs} more items`);
-                return;
-              }
-
-              setError('');
               onConfirm(amount);
               setModalOpen(false);
               setValue('');
@@ -84,7 +99,6 @@ const AddMoreInputsModal = ({
             className='close-add-more-inputs-modal'
             onClick={() => {
               setModalOpen(false);
-              setError('');
               setValue('');
             }}
           >

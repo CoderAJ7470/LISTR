@@ -41,7 +41,8 @@
     border-radius: 5px;
 
     &:disabled {
-      color: var(--dark-beige);
+      color: var(--disabled-text);
+      background-color: var(--disabled-background);
     }
   }
 

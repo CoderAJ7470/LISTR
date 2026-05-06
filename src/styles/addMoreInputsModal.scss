@@ -24,6 +24,7 @@
     & .add-additional-items-input {
       border: 1px solid var(--off-black);
       padding: 0.5rem;
+      margin-bottom: 1rem;
     }
 
     & .confirm-additional-inputs {
@@ -33,6 +34,11 @@
       border: none;
       border-radius: 5px;
       margin-right: 1rem;
+
+      &:disabled {
+        color: var(--disabled-text);
+        background-color: var(--disabled-background);
+      }
     }
 
     & .close-add-more-inputs-modal {
@@ -42,18 +48,13 @@
       border-radius: 5px;
     }
 
-    & .additional-inputs-error-message {
-      display: block;
-      min-height: 1rem;
-      color: var(--required-or-warning);
-      border-radius: 4px;
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
+    & .error-span {
+      color: var(--action-color-green);
     }
 
-    & .error-hidden {
-      visibility: hidden;
+    & .error-span.error-text,
+    .error-span.warning-text {
+      color: var(--required-or-warning);
     }
   }
 }
