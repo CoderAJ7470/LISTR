@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useCreateListForm } from '../../app/context/CreateListFormContext';
 
 const List = () => {
-  const { listName, items } = useCreateListForm();
+  const { lists } = useCreateListForm();
 
-  if (items.length === 0) {
+  if (lists.length === 0) {
     return (
       <div className='no-lists'>
         You have not created a list yet.{' '}
@@ -17,9 +17,12 @@ const List = () => {
 
   return (
     <div className='list-wrapper'>
-      <div>{listName}</div>
-      {items.map((item) => (
-        <p key={item.id}>{item.itemText}</p>
+      {lists.map((list) => (
+        <div key={list.id} className='single-list'>
+          {list.items.map((item) => (
+            <p key={item.id}>{item.itemText}</p>
+          ))}
+        </div>
       ))}
     </div>
   );

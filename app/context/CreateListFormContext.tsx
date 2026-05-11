@@ -7,13 +7,21 @@ type ListItem = {
   itemText: string;
 };
 
+type List = {
+  id: string;
+  listName: string;
+  items: ListItem[];
+};
+
 interface CreateListFormContext {
   listName: string;
   setListName: (name: string) => void;
   numberOfItems: number;
   setNumberOfItems: (num: number) => void;
-  items: ListItem[];
-  setItems: React.Dispatch<React.SetStateAction<ListItem[]>>;
+  lists: List[];
+  setLists: React.Dispatch<React.SetStateAction<List[]>>;
+  selectedListId: string | null;
+  setSelectedListId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const CreateListFormContext = createContext<CreateListFormContext | undefined>(
@@ -39,7 +47,8 @@ interface ProviderProps {
 export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [listName, setListName] = useState('');
   const [numberOfItems, setNumberOfItems] = useState(0);
-  const [items, setItems] = useState<ListItem[]>([]);
+  const [lists, setLists] = useState<List[]>([]);
+  const [selectedListId, setSelectedListId] = useState<string | null>(null);
 
   return (
     <CreateListFormContext.Provider
@@ -48,8 +57,10 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         setListName,
         numberOfItems,
         setNumberOfItems,
-        items,
-        setItems,
+        lists,
+        setLists,
+        selectedListId,
+        setSelectedListId,
       }}
     >
       {children}

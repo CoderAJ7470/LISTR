@@ -11,10 +11,10 @@ import '../../../src/styles/createList.scss';
 const CreateListStep2 = () => {
   const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);
+  const { numberOfItems, setLists } = useCreateListForm();
+  const { listName } = useCreateListForm();
 
   const router = useRouter();
-  const { numberOfItems, setItems: setFinalizedListItems } =
-    useCreateListForm();
 
   const [items, setItems] = useState(
     Array.from({ length: numberOfItems }, () => ({
@@ -73,7 +73,14 @@ const CreateListStep2 = () => {
     const listWithBlanksRemoved = items.filter(
       (item, index) => index === 0 || item.itemText.trim() !== '',
     );
-    setFinalizedListItems(listWithBlanksRemoved);
+    setLists((prev) => [
+      ...prev,
+      {
+        id: uuidv4(),
+        listName,
+        items: listWithBlanksRemoved,
+      },
+    ]);
 
     // Clear first-item error if any
     setFirstItemError('');
