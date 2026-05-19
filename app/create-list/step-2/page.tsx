@@ -11,8 +11,8 @@ import '../../../src/styles/createList.scss';
 const CreateListStep2 = () => {
   const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);
-  const { numberOfItems, setLists } = useCreateListForm();
-  const { listName } = useCreateListForm();
+  const { numberOfItems, setLists, listName, setSelectedListId } =
+    useCreateListForm();
 
   const router = useRouter();
 
@@ -53,17 +53,15 @@ const CreateListStep2 = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Ensure first item is filled
-    const firstItem = items[0];
+    const newListId = uuidv4();
 
-    if (!firstItem || firstItem.itemText.trim() === '') {
+    // Ensure at least one item is filled anywhere
+    const hasAtLeastOneItem = items.some((item) => item.itemText.trim() !== '');
+
+    if (!hasAtLeastOneItem) {
       setFirstItemError('At least 1 item required');
 
-      // Scroll first input into view
-      const firstInput = firstItem
-        ? document.getElementById(`item-${firstItem.id}`)
-        : null;
-
+      const firstInput = document.getElementById(`item-${items[0]?.id}`);
       firstInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
       return;
@@ -73,14 +71,17 @@ const CreateListStep2 = () => {
     const listWithBlanksRemoved = items.filter(
       (item, index) => index === 0 || item.itemText.trim() !== '',
     );
+
     setLists((prev) => [
       ...prev,
       {
-        id: uuidv4(),
+        id: newListId,
         listName,
         items: listWithBlanksRemoved,
       },
     ]);
+
+    setSelectedListId(newListId);
 
     // Clear first-item error if any
     setFirstItemError('');

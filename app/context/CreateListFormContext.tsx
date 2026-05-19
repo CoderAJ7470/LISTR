@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react';
 
 type ListItem = {
   id: string;
@@ -49,6 +55,19 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [numberOfItems, setNumberOfItems] = useState(0);
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (lists.length === 0) {
+      setSelectedListId(null);
+      return;
+    }
+
+    const exists = lists.some((list) => list.id === selectedListId);
+
+    if (!selectedListId || !exists) {
+      setSelectedListId(lists[0].id);
+    }
+  }, [lists, selectedListId]);
 
   return (
     <CreateListFormContext.Provider

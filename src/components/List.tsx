@@ -1,10 +1,66 @@
 'use client';
 
+import { useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import { arrayMove } from '@dnd-kit/sortable';
+import type { DragEndEvent } from '@dnd-kit/core';
+import {
+  DndContext,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import SortableItem from './SortableItem';
 import { useCreateListForm } from '../../app/context/CreateListFormContext';
 
 const List = () => {
-  const { lists } = useCreateListForm();
+  const { lists, selectedListId, setLists } = useCreateListForm();
+  const activeList = lists.find((list) => list.id === selectedListId);
+
+  // This MUST come before any conditionals since it is a hook - one of the rules of hooks
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 5,
+      },
+    }),
+  );
+
+  const handleOnDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+
+      if (!over || active.id === over.id) return;
+
+      setLists((prevLists) =>
+        prevLists.map((list) => {
+          if (list.id !== selectedListId) return list;
+
+          const oldIndex = list.items.findIndex((i) => i.id === active.id);
+          const newIndex = list.items.findIndex((i) => i.id === over.id);
+
+          if (oldIndex === -1 || newIndex === -1) return list;
+
+          return {
+            ...list,
+            items: arrayMove(list.items, oldIndex, newIndex),
+          };
+        }),
+      );
+    },
+    [setLists, selectedListId],
+  );
 
   if (lists.length === 0) {
     return (
@@ -15,15 +71,25 @@ const List = () => {
     );
   }
 
+  if (!activeList) return null;
+
+  const sortableItems = useMemo(
+    () => activeList.items.map((item) => item.id),
+    [activeList.items],
+  );
+
   return (
     <div className='list-wrapper'>
-      {lists.map((list) => (
-        <div key={list.id} className='single-list'>
-          {list.items.map((item) => (
-            <p key={item.id}>{item.itemText}</p>
+      <DndContext sensors={sensors} onDragEnd={handleOnDragEnd}>
+        <SortableContext
+          items={sortableItems}
+          strategy={verticalListSortingStrategy}
+        >
+          {activeList.items.map((item) => (
+            <SortableItem key={item.id} id={item.id} itemText={item.itemText} />
           ))}
-        </div>
-      ))}
+        </SortableContext>
+      </DndContext>
     </div>
   );
 };
