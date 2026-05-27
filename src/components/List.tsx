@@ -18,6 +18,8 @@ import {
 import SortableItem from './SortableItem';
 import { useCreateListForm } from '../../app/context/CreateListFormContext';
 
+import '../styles/list.scss';
+
 const List = () => {
   const { lists, selectedListId, setLists } = useCreateListForm();
   const activeList = lists.find((list) => list.id === selectedListId);
@@ -85,9 +87,16 @@ const List = () => {
           items={sortableItems}
           strategy={verticalListSortingStrategy}
         >
-          {activeList.items.map((item) => (
-            <SortableItem key={item.id} id={item.id} itemText={item.itemText} />
-          ))}
+          <ul className='individual-list-container'>
+            {activeList.items.map((item) => (
+              <SortableItem
+                listName={activeList.listName}
+                key={item.id}
+                id={item.id}
+                itemText={item.itemText}
+              />
+            ))}
+          </ul>
         </SortableContext>
       </DndContext>
     </div>

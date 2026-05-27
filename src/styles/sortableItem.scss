@@ -1,4 +1,15 @@
-.dndkit-ul-list {
-  list-style-type: none;
-  padding-left: 0;
+.all-list-items {
+  margin: 1rem 0;
+  border: 1px solid var(--off-black);
+  border-radius: 5px;
+  padding: 0.5rem;
+
+  & .top-section {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--off-black);
+  }
+
+  & .bottom-section {
+    padding-top: 0.5rem;
+  }
 }

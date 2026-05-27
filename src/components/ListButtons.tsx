@@ -16,12 +16,8 @@ const ListButtons = () => {
           {list.listName}
         </button>
       ))}
-      {/* <button className='list-buttons'>Groceries</button>
-      <button className='list-buttons'>Groceries</button>
-      <button className='list-buttons'>Groceries</button>
-      <button className='list-buttons'>Groceries</button>
-      <button className='list-buttons'>Groceries</button>
-      <button className='list-buttons'>Groceries</button> */}
+      {<button className='list-buttons'>Test Button</button>}
+      {<button className='list-buttons'>Test Button</button>}
     </div>
   );
 };

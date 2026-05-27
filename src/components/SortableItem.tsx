@@ -5,12 +5,13 @@ import { CSS } from '@dnd-kit/utilities';
 
 import '../styles/sortableItem.scss';
 
-type Props = {
+type SortableItemProps = {
   id: string;
   itemText: string;
+  listName: string;
 };
 
-const SortableItem = ({ id, itemText }: Props) => {
+const SortableItem = ({ id, itemText, listName }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -20,11 +21,18 @@ const SortableItem = ({ id, itemText }: Props) => {
   };
 
   return (
-    <ul className='dndkit-ul-list'>
-      <li ref={setNodeRef} style={style} {...attributes} {...listeners}>
-        {itemText}
+    itemText && (
+      <li
+        className={`${listName}-list-item all-list-items`}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+      >
+        <div className='top-section'>{itemText}</div>
+        <div className='bottom-section'>Icons and such</div>
       </li>
-    </ul>
+    )
   );
 };
 
