@@ -31,6 +31,7 @@ const List = () => {
         distance: 8,
       },
     }),
+
     useSensor(TouchSensor, {
       activationConstraint: {
         delay: 150,
@@ -64,6 +65,11 @@ const List = () => {
     [setLists, selectedListId],
   );
 
+  const sortableItems = useMemo(
+    () => activeList?.items.map((item) => item.id) ?? [],
+    [activeList?.items],
+  );
+
   if (lists.length === 0) {
     return (
       <div className='no-lists'>
@@ -74,11 +80,6 @@ const List = () => {
   }
 
   if (!activeList) return null;
-
-  const sortableItems = useMemo(
-    () => activeList.items.map((item) => item.id),
-    [activeList.items],
-  );
 
   return (
     <div className='list-wrapper'>

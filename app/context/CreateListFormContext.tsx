@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { databases } from '../../src/lib/appwrite';
 
 type ListItem = {
   id: string;
@@ -56,6 +57,9 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
 
+  const DATABASE_ID = 'listr_db_id';
+  const TABLE_ID = 'lists';
+
   useEffect(() => {
     if (lists.length === 0) {
       setSelectedListId(null);
@@ -68,6 +72,22 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
       setSelectedListId(lists[0].id);
     }
   }, [lists, selectedListId]);
+
+  const fetchLists = async () => {
+    const response = await databases.listDocuments(DATABASE_ID, TABLE_ID);
+
+    const formatted = response.documents.map((doc) => ({
+      id: doc.$id,
+      listName: doc.listName,
+      items: doc.items ? JSON.parse(doc.items) : [],
+    }));
+
+    setLists(formatted);
+  };
+
+  useEffect(() => {
+    fetchLists();
+  }, []);
 
   return (
     <CreateListFormContext.Provider

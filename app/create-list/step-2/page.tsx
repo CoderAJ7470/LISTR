@@ -1,10 +1,11 @@
 'use client';
 
 import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateListForm } from '../../context/CreateListFormContext';
 import { v4 as uuidv4 } from 'uuid';
+import { databases } from '../../../src/lib/appwrite';
 
 import '../../../src/styles/createList.scss';
 
@@ -28,6 +29,11 @@ const CreateListStep2 = () => {
   // First input-specific error (required)
   const [firstItemError, setFirstItemError] = useState('');
 
+  // KEEP FOR NOW; TO BE REMOVED LATER
+  useEffect(() => {
+    console.log('Appwrite client initialized:', databases);
+  }, []);
+
   /**
    * Add more item inputs for the user to fill and complete creating their list
    *
@@ -50,10 +56,14 @@ const CreateListStep2 = () => {
     ]);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newListId = uuidv4();
+
+    // To communicate with the Appwrite DB
+    const DATABASE_ID = 'listr_db_id';
+    const TABLE_ID = 'lists';
 
     // Ensure at least one item is filled anywhere
     const hasAtLeastOneItem = items.some((item) => item.itemText.trim() !== '');
@@ -70,6 +80,16 @@ const CreateListStep2 = () => {
     // Automatically remove any blank inputs after index 0
     const listWithBlanksRemoved = items.filter(
       (item, index) => index === 0 || item.itemText.trim() !== '',
+    );
+
+    const newList = await databases.createDocument(
+      DATABASE_ID,
+      TABLE_ID,
+      newListId,
+      {
+        listName,
+        items: JSON.stringify(listWithBlanksRemoved),
+      },
     );
 
     setLists((prev) => [
