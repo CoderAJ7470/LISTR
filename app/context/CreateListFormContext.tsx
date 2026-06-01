@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { databases } from '../../src/lib/appwrite';
+import { DATABASE_ID, TABLE_ID } from '../../src/lib/constants';
 
 type ListItem = {
   id: string;
@@ -56,9 +57,6 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [numberOfItems, setNumberOfItems] = useState(0);
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
-
-  const DATABASE_ID = 'listr_db_id';
-  const TABLE_ID = 'lists';
 
   useEffect(() => {
     if (lists.length === 0) {

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCreateListForm } from '../../context/CreateListFormContext';
 import { v4 as uuidv4 } from 'uuid';
 import { databases } from '../../../src/lib/appwrite';
+import { DATABASE_ID, TABLE_ID } from '../../../src/lib/constants';
 
 import '../../../src/styles/createList.scss';
 
@@ -60,10 +61,6 @@ const CreateListStep2 = () => {
     e.preventDefault();
 
     const newListId = uuidv4();
-
-    // To communicate with the Appwrite DB
-    const DATABASE_ID = 'listr_db_id';
-    const TABLE_ID = 'lists';
 
     // Ensure at least one item is filled anywhere
     const hasAtLeastOneItem = items.some((item) => item.itemText.trim() !== '');
