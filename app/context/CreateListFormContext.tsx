@@ -30,6 +30,7 @@ interface CreateListFormContext {
   setLists: React.Dispatch<React.SetStateAction<List[]>>;
   selectedListId: string | null;
   setSelectedListId: React.Dispatch<React.SetStateAction<string | null>>;
+  isLoading: boolean;
 }
 
 const CreateListFormContext = createContext<CreateListFormContext | undefined>(
@@ -57,6 +58,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [numberOfItems, setNumberOfItems] = useState(0);
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (lists.length === 0) {
@@ -72,15 +74,22 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   }, [lists, selectedListId]);
 
   const fetchLists = async () => {
-    const response = await databases.listDocuments(DATABASE_ID, TABLE_ID);
+    try {
+      setIsLoading(true);
+      const response = await databases.listDocuments(DATABASE_ID, TABLE_ID);
 
-    const formatted = response.documents.map((doc) => ({
-      id: doc.$id,
-      listName: doc.listName,
-      items: doc.items ? JSON.parse(doc.items) : [],
-    }));
+      const formatted = response.documents.map((doc) => ({
+        id: doc.$id,
+        listName: doc.listName,
+        items: doc.items ? JSON.parse(doc.items) : [],
+      }));
 
-    setLists(formatted);
+      setLists(formatted);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -98,6 +107,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         setLists,
         selectedListId,
         setSelectedListId,
+        isLoading,
       }}
     >
       {children}

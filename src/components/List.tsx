@@ -21,7 +21,7 @@ import { useCreateListForm } from '../../app/context/CreateListFormContext';
 import '../styles/list.scss';
 
 const List = () => {
-  const { lists, selectedListId, setLists } = useCreateListForm();
+  const { lists, selectedListId, setLists, isLoading } = useCreateListForm();
   const activeList = lists.find((list) => list.id === selectedListId);
 
   // This MUST come before any conditionals since it is a hook - one of the rules of hooks
@@ -69,6 +69,12 @@ const List = () => {
     () => activeList?.items.map((item) => item.id) ?? [],
     [activeList?.items],
   );
+
+  if (isLoading) {
+    return (
+      <p className='loading-screen'>Retreiving your lists, almost there..</p>
+    );
+  }
 
   if (lists.length === 0) {
     return (

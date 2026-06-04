@@ -26,10 +26,14 @@ const SortableItem = ({ id, itemText, listName }: SortableItemProps) => {
         className={`${listName}-list-item all-list-items`}
         ref={setNodeRef}
         style={style}
-        {...attributes}
-        {...listeners}
       >
-        <div className='top-section'>{itemText}</div>
+        <div className='top-section'>
+          <span className='top-section-text'>{itemText}</span>
+          <div className='drag-handle-wrapper' {...attributes} {...listeners}>
+            {/* <i className='fa-solid fa-grip-lines'></i> */}
+            <i className='fa-solid fa-grip-vertical'></i>
+          </div>
+        </div>
         <div className='bottom-section'>Icons and such</div>
       </li>
     )
