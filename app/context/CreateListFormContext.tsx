@@ -21,7 +21,7 @@ type List = {
   items: ListItem[];
 };
 
-interface CreateListFormContext {
+interface CreateListFormContextType {
   listName: string;
   setListName: (name: string) => void;
   numberOfItems: number;
@@ -31,11 +31,14 @@ interface CreateListFormContext {
   selectedListId: string | null;
   setSelectedListId: React.Dispatch<React.SetStateAction<string | null>>;
   isLoading: boolean;
+  dirtyListIds: string[];
+  markListDirty: (listId: string) => void;
+  markListClean: (listId: string) => void;
 }
 
-const CreateListFormContext = createContext<CreateListFormContext | undefined>(
-  undefined,
-);
+const CreateListFormContext = createContext<
+  CreateListFormContextType | undefined
+>(undefined);
 
 export const useCreateListForm = () => {
   const context = useContext(CreateListFormContext);
@@ -59,6 +62,17 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [dirtyListIds, setDirtyListIds] = useState<string[]>([]);
+
+  const markListDirty = (listId: string) => {
+    setDirtyListIds((prev) =>
+      prev.includes(listId) ? prev : [...prev, listId],
+    );
+  };
+
+  const markListClean = (listId: string) => {
+    setDirtyListIds((prev) => prev.filter((id) => id !== listId));
+  };
 
   useEffect(() => {
     if (lists.length === 0) {
@@ -108,6 +122,9 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         selectedListId,
         setSelectedListId,
         isLoading,
+        dirtyListIds,
+        markListDirty,
+        markListClean,
       }}
     >
       {children}

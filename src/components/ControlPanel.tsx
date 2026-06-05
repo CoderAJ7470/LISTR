@@ -15,6 +15,7 @@ const ControlPanel = () => {
         <i className='fa-solid fa-circle-plus'></i>
         Add a new list
       </button>
+      <button className='save-changes-button'>Save changes</button>
     </div>
   );
 };

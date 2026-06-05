@@ -79,7 +79,8 @@ const CreateListStep2 = () => {
       (item, index) => index === 0 || item.itemText.trim() !== '',
     );
 
-    const newList = await databases.createDocument(
+    // Here, "newlyCreatedListFromAppwrite is essentially the list (document) that Appwrite is returning back after having it saved in the DB i.e. the user creates the list, it gets saved to Appwrite, and then Appwrite is returning sad list back to us, which is stored in this variable"
+    const newlyCreatedListFromAppwrite = await databases.createDocument(
       DATABASE_ID,
       TABLE_ID,
       newListId,

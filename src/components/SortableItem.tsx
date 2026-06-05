@@ -30,8 +30,7 @@ const SortableItem = ({ id, itemText, listName }: SortableItemProps) => {
         <div className='top-section'>
           <span className='top-section-text'>{itemText}</span>
           <div className='drag-handle-wrapper' {...attributes} {...listeners}>
-            {/* <i className='fa-solid fa-grip-lines'></i> */}
-            <i className='fa-solid fa-grip-vertical'></i>
+            <i className='fa-solid fa-grip-lines'></i>
           </div>
         </div>
         <div className='bottom-section'>Icons and such</div>

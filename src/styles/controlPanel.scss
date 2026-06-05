@@ -18,10 +18,17 @@
   background: none;
   border: 2px solid var(--action-color-green);
   border-radius: 5px;
-  cursor: pointer;
+  margin-right: 0.5rem;
 
   &:active {
     color: var(--white);
     background-color: var(--action-color-green);
   }
+}
+
+.save-changes-button {
+  padding: 0.2rem 0.3rem;
+  background-color: var(--disabled-background);
+  color: var(--disabled-text);
+  border-radius: 5px;
 }
