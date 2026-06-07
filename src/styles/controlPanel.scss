@@ -28,7 +28,12 @@
 
 .save-changes-button {
   padding: 0.2rem 0.3rem;
-  background-color: var(--disabled-background);
-  color: var(--disabled-text);
+  background-color: var(--sky-blue);
+  color: var(--white);
   border-radius: 5px;
+
+  &:disabled {
+    color: var(--disabled-text);
+    background-color: var(--disabled-background);
+  }
 }

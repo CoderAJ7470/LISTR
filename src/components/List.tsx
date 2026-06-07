@@ -21,7 +21,8 @@ import { useCreateListForm } from '../../app/context/CreateListFormContext';
 import '../styles/list.scss';
 
 const List = () => {
-  const { lists, selectedListId, setLists, isLoading } = useCreateListForm();
+  const { lists, selectedListId, setLists, isLoading, syncDirtyState } =
+    useCreateListForm();
   const activeList = lists.find((list) => list.id === selectedListId);
 
   // This MUST come before any conditionals since it is a hook - one of the rules of hooks
@@ -40,14 +41,21 @@ const List = () => {
     }),
   );
 
+  /**
+   * Handles the sequence of events after the user has finished dragging a SortableItem.
+   * This function will a. update list data in which a SortableItem gets dragged and dropped,
+   * b. check if the list has actually been updated by the user, and if so,
+   */
   const handleOnDragEnd = useCallback(
     (event: DragEndEvent) => {
       const { active, over } = event;
 
       if (!over || active.id === over.id) return;
 
-      setLists((prevLists) =>
-        prevLists.map((list) => {
+      setLists((prevLists) => {
+        let updatedList: any = null;
+
+        const updatedLists = prevLists.map((list) => {
           if (list.id !== selectedListId) return list;
 
           const oldIndex = list.items.findIndex((i) => i.id === active.id);
@@ -55,14 +63,22 @@ const List = () => {
 
           if (oldIndex === -1 || newIndex === -1) return list;
 
-          return {
+          updatedList = {
             ...list,
             items: arrayMove(list.items, oldIndex, newIndex),
           };
-        }),
-      );
+
+          return updatedList;
+        });
+
+        if (selectedListId && updatedList) {
+          syncDirtyState(updatedList);
+        }
+
+        return updatedLists;
+      });
     },
-    [setLists, selectedListId],
+    [selectedListId, setLists, syncDirtyState],
   );
 
   const sortableItems = useMemo(

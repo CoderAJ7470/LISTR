@@ -34,6 +34,9 @@ interface CreateListFormContextType {
   dirtyListIds: string[];
   markListDirty: (listId: string) => void;
   markListClean: (listId: string) => void;
+  syncDirtyState: (updatedList: List) => void;
+  compareLists: List[];
+  setCompareLists: React.Dispatch<React.SetStateAction<List[]>>;
 }
 
 const CreateListFormContext = createContext<
@@ -64,14 +67,37 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [dirtyListIds, setDirtyListIds] = useState<string[]>([]);
 
+  // baseline/pre-change state to compare any list against changes made by the user, so
+  // that if the user makes one/more changes, then reverts back to the original
+  // baseline, no actual changes were made and the "Save changes" button in the
+  // ControlPanel will get disabled again.
+  const [compareLists, setCompareLists] = useState<List[]>([]);
+
   const markListDirty = (listId: string) => {
+    console.log('marked as dirty');
     setDirtyListIds((prev) =>
       prev.includes(listId) ? prev : [...prev, listId],
     );
   };
 
   const markListClean = (listId: string) => {
+    console.log('marked as clean');
     setDirtyListIds((prev) => prev.filter((id) => id !== listId));
+  };
+
+  const syncDirtyState = (updatedList: List) => {
+    const baseline = compareLists.find((l) => l.id === updatedList.id);
+
+    if (!baseline) return;
+
+    const isSame =
+      JSON.stringify(updatedList.items) === JSON.stringify(baseline.items);
+
+    if (isSame) {
+      markListClean(updatedList.id);
+    } else {
+      markListDirty(updatedList.id);
+    }
   };
 
   useEffect(() => {
@@ -92,13 +118,14 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
       setIsLoading(true);
       const response = await databases.listDocuments(DATABASE_ID, TABLE_ID);
 
-      const formatted = response.documents.map((doc) => ({
-        id: doc.$id,
-        listName: doc.listName,
-        items: doc.items ? JSON.parse(doc.items) : [],
+      const formattedList = response.documents.map((document) => ({
+        id: document.$id,
+        listName: document.listName,
+        items: document.items ? JSON.parse(document.items) : [],
       }));
 
-      setLists(formatted);
+      setLists(formattedList);
+      setCompareLists(formattedList);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -125,6 +152,9 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         dirtyListIds,
         markListDirty,
         markListClean,
+        compareLists,
+        setCompareLists,
+        syncDirtyState,
       }}
     >
       {children}

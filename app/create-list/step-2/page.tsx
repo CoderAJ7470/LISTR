@@ -13,8 +13,13 @@ import '../../../src/styles/createList.scss';
 const CreateListStep2 = () => {
   const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);
-  const { numberOfItems, setLists, listName, setSelectedListId } =
-    useCreateListForm();
+  const {
+    numberOfItems,
+    setLists,
+    listName,
+    setSelectedListId,
+    setCompareLists,
+  } = useCreateListForm();
 
   const router = useRouter();
 
@@ -94,8 +99,17 @@ const CreateListStep2 = () => {
       ...prev,
       {
         id: newListId,
-        listName,
-        items: listWithBlanksRemoved,
+        listName: newlyCreatedListFromAppwrite.listName,
+        items: JSON.parse(newlyCreatedListFromAppwrite.items),
+      },
+    ]);
+
+    setCompareLists((prev) => [
+      ...prev,
+      {
+        id: newListId,
+        listName: newlyCreatedListFromAppwrite.listName,
+        items: JSON.parse(newlyCreatedListFromAppwrite.items),
       },
     ]);
 
