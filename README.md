@@ -8,7 +8,7 @@ LISTR - An idea I have for an app that allows you make lists. Essentially a to-d
 
 This side project is really just for me to get better at creating fullstack apps. As such, it will have a backend of some sort, user accounts and data persistence, to store/remove lists and other data, in addition to other stuff.
 
-**NOTE: Do not fork or clone this repo without my permission.**
+**Please do not fork or clone this repo without my permission.**
 
 ### 3/24/2026 Update:
 
