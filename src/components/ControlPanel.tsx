@@ -8,7 +8,7 @@ import '../styles/controlPanel.scss';
 const ControlPanel = () => {
   const router = useRouter();
   const { dirtyListIds } = useCreateListForm();
-
+  const totalChanges = dirtyListIds.length;
   const hasUnsavedChanges = dirtyListIds.length > 0;
 
   return (
@@ -22,6 +22,11 @@ const ControlPanel = () => {
       </button>
       <button className='save-changes-button' disabled={!hasUnsavedChanges}>
         Save changes
+        <span
+          className={`alert-on-save-changes-button ${hasUnsavedChanges ? 'alert-visible' : ''}`}
+        >
+          {hasUnsavedChanges && totalChanges}
+        </span>
       </button>
     </div>
   );

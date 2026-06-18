@@ -31,9 +31,38 @@
   background-color: var(--sky-blue);
   color: var(--white);
   border-radius: 5px;
+  position: relative;
 
   &:disabled {
     color: var(--disabled-text);
     background-color: var(--disabled-background);
   }
+}
+
+.alert-on-save-changes-button {
+  color: var(--white);
+  background-color: var(--required-or-warning);
+  font-size: 0.6rem;
+  font-weight: bold;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  border-radius: 50%;
+  top: -9px;
+  right: -8px;
+  line-height: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  opacity: 0;
+  transition:
+    opacity 250ms ease-in,
+    visibility 0ms ease-in 250ms;
+}
+
+.alert-visible {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
+  transition-delay: 0ms;
 }
