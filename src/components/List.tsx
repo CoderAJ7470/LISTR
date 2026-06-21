@@ -21,7 +21,7 @@ import { useCreateListForm } from '../../app/context/CreateListFormContext';
 import '../styles/list.scss';
 
 const List = () => {
-  const { lists, selectedListId, setLists, isLoading, syncDirtyState } =
+  const { lists, selectedListId, setLists, isLoading, syncEditedState } =
     useCreateListForm();
   const activeList = lists.find((list) => list.id === selectedListId);
 
@@ -72,13 +72,13 @@ const List = () => {
         });
 
         if (selectedListId && updatedList) {
-          syncDirtyState(updatedList);
+          syncEditedState(updatedList);
         }
 
         return updatedLists;
       });
     },
-    [selectedListId, setLists, syncDirtyState],
+    [selectedListId, setLists, syncEditedState],
   );
 
   const sortableItems = useMemo(

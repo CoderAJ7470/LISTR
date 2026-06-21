@@ -31,12 +31,13 @@ interface CreateListFormContextType {
   selectedListId: string | null;
   setSelectedListId: React.Dispatch<React.SetStateAction<string | null>>;
   isLoading: boolean;
-  dirtyListIds: string[];
-  markListDirty: (listId: string) => void;
-  markListClean: (listId: string) => void;
-  syncDirtyState: (updatedList: List) => void;
+  editedListIds: string[];
+  markListEdited: (listId: string) => void;
+  markListUnedited: (listId: string) => void;
+  syncEditedState: (updatedList: List) => void;
   compareLists: List[];
   setCompareLists: React.Dispatch<React.SetStateAction<List[]>>;
+  saveEditedLists: () => Promise<void>;
 }
 
 const CreateListFormContext = createContext<
@@ -65,7 +66,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [dirtyListIds, setDirtyListIds] = useState<string[]>([]);
+  const [editedListIds, setEditedListIds] = useState<string[]>([]);
 
   // baseline/pre-change state to compare any list against changes made by the user, so
   // that if the user makes one/more changes, then reverts back to the original
@@ -73,19 +74,19 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   // ControlPanel will get disabled again.
   const [compareLists, setCompareLists] = useState<List[]>([]);
 
-  const markListDirty = (listId: string) => {
-    console.log('marked as dirty');
-    setDirtyListIds((prev) =>
+  const markListEdited = (listId: string) => {
+    console.log('marked as edited');
+    setEditedListIds((prev) =>
       prev.includes(listId) ? prev : [...prev, listId],
     );
   };
 
-  const markListClean = (listId: string) => {
-    console.log('marked as clean');
-    setDirtyListIds((prev) => prev.filter((id) => id !== listId));
+  const markListUnedited = (listId: string) => {
+    console.log('marked as unedited');
+    setEditedListIds((prev) => prev.filter((id) => id !== listId));
   };
 
-  const syncDirtyState = (updatedList: List) => {
+  const syncEditedState = (updatedList: List) => {
     const baseline = compareLists.find((l) => l.id === updatedList.id);
 
     if (!baseline) return;
@@ -94,10 +95,19 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
       JSON.stringify(updatedList.items) === JSON.stringify(baseline.items);
 
     if (isSame) {
-      markListClean(updatedList.id);
+      markListUnedited(updatedList.id);
     } else {
-      markListDirty(updatedList.id);
+      markListEdited(updatedList.id);
     }
+  };
+
+  /**
+   * Saves any edited lists to the Appwrite DB.
+   */
+  const saveEditedLists = async () => {
+    const editedLists = lists.filter((list) => editedListIds.includes(list.id));
+
+    console.log('edited lists', editedLists);
   };
 
   useEffect(() => {
@@ -149,12 +159,13 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         selectedListId,
         setSelectedListId,
         isLoading,
-        dirtyListIds,
-        markListDirty,
-        markListClean,
+        editedListIds,
+        markListEdited,
+        markListUnedited,
         compareLists,
         setCompareLists,
-        syncDirtyState,
+        syncEditedState,
+        saveEditedLists,
       }}
     >
       {children}

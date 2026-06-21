@@ -79,12 +79,12 @@ const CreateListStep2 = () => {
       return;
     }
 
-    // Automatically remove any blank inputs after index 0
+    // Automatically remove any blank inputs before saving
     const listWithBlanksRemoved = items.filter(
-      (item, index) => index === 0 || item.itemText.trim() !== '',
+      (item) => item.itemText.trim() !== '',
     );
 
-    // Here, "newlyCreatedListFromAppwrite is essentially the list (document) that Appwrite is returning back after having it saved in the DB i.e. the user creates the list, it gets saved to Appwrite, and then Appwrite is returning sad list back to us, which is stored in this variable"
+    // Here, "newlyCreatedListFromAppwrite is essentially the list (document) that Appwrite is returning back after having it saved in the DB i.e. the user creates the list, it gets saved to Appwrite, and then Appwrite is returning said list back to us, which is stored in this variable"
     const newlyCreatedListFromAppwrite = await databases.createDocument(
       DATABASE_ID,
       TABLE_ID,
