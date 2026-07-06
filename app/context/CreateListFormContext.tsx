@@ -87,7 +87,9 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   };
 
   const syncEditedState = (updatedList: List) => {
-    const baseline = compareLists.find((l) => l.id === updatedList.id);
+    const baseline = compareLists.find(
+      (originalList) => originalList.id === updatedList.id,
+    );
 
     if (!baseline) return;
 
@@ -105,9 +107,29 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
    * Saves any edited lists to the Appwrite DB.
    */
   const saveEditedLists = async () => {
-    const editedLists = lists.filter((list) => editedListIds.includes(list.id));
+    try {
+      for (const listId of editedListIds) {
+        const list = lists.find((listItem) => listItem.id === listId);
 
-    console.log('edited lists', editedLists);
+        if (!list) continue;
+
+        await databases.updateDocument(DATABASE_ID, TABLE_ID, list.id, {
+          listName: list.listName,
+          items: JSON.stringify(list.items),
+        });
+      }
+
+      setCompareLists(
+        lists.map((list) => ({
+          ...list,
+          items: [...list.items],
+        })),
+      );
+
+      setEditedListIds([]);
+    } catch (error) {
+      console.error('Failed to save edited lists:', error);
+    }
   };
 
   useEffect(() => {

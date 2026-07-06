@@ -1,6 +1,5 @@
 'use client';
 
-// import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateListForm } from '../../app/context/CreateListFormContext';
 
@@ -11,13 +10,15 @@ const ControlPanel = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   const router = useRouter();
-  const { lists, editedListIds, saveEditedLists } = useCreateListForm();
+  const { editedListIds, saveEditedLists } = useCreateListForm();
   const totalChanges = editedListIds.length;
   const hasUnsavedChanges = editedListIds.length > 0;
 
-  console.log('lists: ', lists);
-  console.log('edited list ids ', editedListIds);
-  console.log('has unsaved? ', hasUnsavedChanges);
+  // useEffect(() => {
+  //   console.log('lists:', lists);
+  //   console.log('edited list ids:', editedListIds);
+  //   console.log('has unsaved?', hasUnsavedChanges);
+  // }, [lists, editedListIds, hasUnsavedChanges]);
 
   useEffect(() => {
     setIsMounted(true);
