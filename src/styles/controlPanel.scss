@@ -1,4 +1,4 @@
-.add-new-list {
+.control-panel-wrapper {
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--dark-beige);
@@ -10,7 +10,6 @@
 
 .fa-circle-plus {
   color: var(--action-color-green);
-  margin-right: 0.4rem;
 }
 
 .control-panel-create-list-button {
@@ -26,7 +25,57 @@
   }
 }
 
-.save-changes-button {
+.control-panel-list-actions-button {
+  background-color: var(--white);
+  padding: 0.2rem 0.3rem;
+  border: 2px solid var(--sky-blue);
+  border-radius: 5px;
+  margin-right: 0.5rem;
+}
+
+.list-actions-button-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.list-actions-button-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--white);
+  padding: 0;
+  transition:
+    max-height 250ms ease,
+    padding 250ms ease;
+}
+
+.list-actions-button-menu.visible {
+  max-height: 200px;
+  padding: 0.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+.list-actions-button-menu-item {
+  background-color: var(--white);
+  color: var(--black);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+  cursor: pointer;
+
+  &:active {
+    color: var(--white);
+    background-color: var(--dark-blue);
+  }
+}
+
+.control-panel-save-changes-button {
   padding: 0.2rem 0.3rem;
   background-color: var(--sky-blue);
   color: var(--white);
@@ -54,7 +103,6 @@
   opacity: 0;
   visibility: hidden;
   transform: scale(0.8);
-  opacity: 0;
   transition:
     opacity 250ms ease-in,
     visibility 0ms ease-in 250ms;
