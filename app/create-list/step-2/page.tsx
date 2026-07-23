@@ -10,6 +10,10 @@ import { DATABASE_ID, TABLE_ID } from '../../../src/lib/constants';
 
 import '../../../src/styles/createList.scss';
 
+// type CreateListStep2Props = {
+//   mode: 'createList' | 'editList';
+// };
+
 const CreateListStep2 = () => {
   const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);

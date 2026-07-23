@@ -1,10 +1,10 @@
 'use client';
 
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateListForm } from '../../app/context/CreateListFormContext';
 
 import '../styles/controlPanel.scss';
-import { useEffect, useState } from 'react';
 
 const ControlPanel = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -15,9 +15,30 @@ const ControlPanel = () => {
   const totalChanges = editedListIds.length;
   const hasUnsavedChanges = editedListIds.length > 0;
 
+  const listActionsButtonRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!showListActions) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        listActionsButtonRef.current &&
+        !listActionsButtonRef.current.contains(event.target as Node)
+      ) {
+        setShowListActions(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showListActions]);
 
   return (
     <div className='control-panel-wrapper'>
@@ -28,7 +49,7 @@ const ControlPanel = () => {
         <i className='fa-solid fa-circle-plus'></i>
       </button>
 
-      <div className='list-actions-button-wrapper'>
+      <div className='list-actions-button-wrapper' ref={listActionsButtonRef}>
         <button
           className='control-panel-list-actions-button'
           onClick={() => setShowListActions((prev) => !prev)}

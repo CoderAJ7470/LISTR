@@ -73,7 +73,7 @@ const CreateListStep1 = () => {
     setListName(listNameInput);
     setNumberOfItems(Number(numberOfItemsInput));
 
-    router.push('/create-list/step-2');
+    router.push('/create-list/step-2?mode=createList');
   };
 
   const handleCancel = () => {
