@@ -2,7 +2,7 @@
 
 import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useCreateListForm } from '../../context/CreateListFormContext';
 import { v4 as uuidv4 } from 'uuid';
 import { databases } from '../../../src/lib/appwrite';
@@ -10,15 +10,12 @@ import { DATABASE_ID, TABLE_ID } from '../../../src/lib/constants';
 
 import '../../../src/styles/createList.scss';
 
-// type CreateListStep2Props = {
-//   mode: 'createList' | 'editList';
-// };
-
 const CreateListStep2 = () => {
   const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);
   const {
     numberOfItems,
+    lists,
     setLists,
     listName,
     setSelectedListId,
@@ -26,6 +23,12 @@ const CreateListStep2 = () => {
   } = useCreateListForm();
 
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const mode = searchParams.get('mode');
+  const listId = searchParams.get('listId');
+
+  const currentList = lists.find((list) => list.id === listId);
 
   const [items, setItems] = useState(
     Array.from({ length: numberOfItems }, () => ({
@@ -43,6 +46,12 @@ const CreateListStep2 = () => {
   useEffect(() => {
     console.log('Appwrite client initialized:', databases);
   }, []);
+
+  useEffect(() => {
+    if (mode === 'editList' && currentList) {
+      setItems(currentList.items);
+    }
+  }, [mode, currentList]);
 
   /**
    * Add more item inputs for the user to fill and complete creating their list
@@ -69,6 +78,11 @@ const CreateListStep2 = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (mode === 'editList') {
+      console.log('Editing list:', currentList);
+      return;
+    }
+
     const newListId = uuidv4();
 
     // Ensure at least one item is filled anywhere
@@ -88,7 +102,7 @@ const CreateListStep2 = () => {
       (item) => item.itemText.trim() !== '',
     );
 
-    // Here, "newlyCreatedListFromAppwrite is essentially the list (document) that Appwrite is returning back after having it saved in the DB i.e. the user creates the list, it gets saved to Appwrite, and then Appwrite is returning said list back to us, which is stored in this variable"
+    // Here, "newlyCreatedListFromAppwrite" is essentially the list (document) that Appwrite is returning back after having it saved in the DB i.e. the user creates the list, it gets saved to Appwrite, and then Appwrite is returning said list back to us, which is stored in this variable"
     const newlyCreatedListFromAppwrite = await databases.createDocument(
       DATABASE_ID,
       TABLE_ID,
@@ -177,10 +191,16 @@ const CreateListStep2 = () => {
 
   return (
     <div className='create-new-list-header'>
-      <h3>Create a new list - Step 2</h3>
+      <h3>
+        {mode === 'createList'
+          ? 'Create a new list - Step 2'
+          : 'Edit current list'}
+      </h3>
 
       <p>
-        Fill out your {items.length} list items below.{' '}
+        {mode === 'createList'
+          ? `Fill out your ${items.length} list items below.`
+          : `Edit the list items you want to change below.`}{' '}
         <b>
           Any blank inputs (except the first one) will automatically be removed
           when you create your list.{' '}
@@ -196,7 +216,8 @@ const CreateListStep2 = () => {
 
         <section className='step-2-options'>
           <button type='submit' className='form-create-list-button'>
-            Create my list <i className='fa-solid fa-arrow-right'></i>
+            {mode === 'createList' ? 'Create my list' : 'Save changes to list'}{' '}
+            <i className='fa-solid fa-arrow-right'></i>
           </button>
 
           <button

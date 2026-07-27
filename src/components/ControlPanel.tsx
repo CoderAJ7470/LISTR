@@ -11,7 +11,8 @@ const ControlPanel = () => {
   const [showListActions, setShowListActions] = useState(false);
 
   const router = useRouter();
-  const { editedListIds, saveEditedLists } = useCreateListForm();
+  const { editedListIds, saveEditedLists, selectedListId } =
+    useCreateListForm();
   const totalChanges = editedListIds.length;
   const hasUnsavedChanges = editedListIds.length > 0;
 
@@ -62,7 +63,14 @@ const ControlPanel = () => {
             showListActions ? 'visible' : ''
           }`}
         >
-          <button className='list-actions-button-menu-item'>
+          <button
+            className='list-actions-button-menu-item'
+            onClick={() =>
+              router.push(
+                `/create-list/step-2?mode=editList&listId=${selectedListId}`,
+              )
+            }
+          >
             Edit Current List
           </button>
 
