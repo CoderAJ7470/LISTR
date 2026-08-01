@@ -79,7 +79,35 @@ const CreateListStep2 = () => {
     e.preventDefault();
 
     if (mode === 'editList') {
-      console.log('Editing list:', currentList);
+      if (!currentList) return;
+
+      const editedItems = items.filter((item) => item.itemText.trim() !== '');
+
+      const updatedList = {
+        id: currentList.id,
+        listName: currentList.listName,
+        items: editedItems,
+      };
+
+      // Updating the Appwrite DB immediately upon save
+      await databases.updateDocument(DATABASE_ID, TABLE_ID, updatedList.id, {
+        listName: updatedList.listName,
+        items: JSON.stringify(updatedList.items),
+      });
+
+      // To ensure the homepage displays the updated list correctly
+      setLists((prev) =>
+        prev.map((list) => (list.id === updatedList.id ? updatedList : list)),
+      );
+
+      // Need to update the compareLists as well in order to ensure that re-ordering updates the comparison state correctly i.e. to make sure the Save changes button and its alert display correctly
+      setCompareLists((prev) =>
+        prev.map((list) => (list.id === updatedList.id ? updatedList : list)),
+      );
+
+      // Return to the homepage
+      router.push('/');
+
       return;
     }
 

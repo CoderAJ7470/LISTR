@@ -75,7 +75,6 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [compareLists, setCompareLists] = useState<List[]>([]);
 
   const markListEdited = (listId: string) => {
-    console.log('marked as edited');
     setEditedListIds((prev) =>
       prev.includes(listId) ? prev : [...prev, listId],
     );
