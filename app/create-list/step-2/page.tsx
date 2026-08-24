@@ -1,7 +1,7 @@
 'use client';
 
 import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useList } from '../../context/CreateListFormContext';
 import { v4 as uuidv4 } from 'uuid';
@@ -284,4 +284,12 @@ const CreateOrEditList = () => {
   );
 };
 
-export default CreateOrEditList;
+const CreateOrEditListPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreateOrEditList />
+    </Suspense>
+  );
+};
+
+export default CreateOrEditListPage;
