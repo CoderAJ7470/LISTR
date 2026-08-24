@@ -1,9 +1,9 @@
-import { useCreateListForm } from '../../app/context/CreateListFormContext';
+import { useList } from '../../app/context/CreateListFormContext';
 
 import '../styles/listButtons.scss';
 
 const ListButtons = () => {
-  const { lists, selectedListId, setSelectedListId } = useCreateListForm();
+  const { lists, selectedListId, setSelectedListId } = useList();
 
   return (
     <div className='list-buttons-container'>

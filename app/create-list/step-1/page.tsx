@@ -1,7 +1,7 @@
 'use client';
 import { useState, type SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCreateListForm } from '../../context/CreateListFormContext';
+import { useList } from '../../context/CreateListFormContext';
 import {
   validateListName,
   validateNumberOfItems,
@@ -21,7 +21,7 @@ const CreateListStep1 = () => {
 
   // State variables from CreateListFormContext - brought in here to persist number
   // of items between Steps 1 and 2, if use decides to go back to 1, then back to 2
-  const { setListName, setNumberOfItems } = useCreateListForm();
+  const { setListName, setNumberOfItems } = useList();
 
   const validate = () => {
     let valid = true;

@@ -3,14 +3,14 @@
 import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCreateListForm } from '../../context/CreateListFormContext';
+import { useList } from '../../context/CreateListFormContext';
 import { v4 as uuidv4 } from 'uuid';
 import { databases } from '../../../src/lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../../../src/lib/constants';
 
 import '../../../src/styles/createList.scss';
 
-const CreateListStep2 = () => {
+const CreateOrEditList = () => {
   const MAX_ITEMS = 40;
   const [openMoreItems, setOpenMoreItems] = useState(false);
   const {
@@ -20,7 +20,7 @@ const CreateListStep2 = () => {
     listName,
     setSelectedListId,
     setCompareLists,
-  } = useCreateListForm();
+  } = useList();
 
   const router = useRouter();
 
@@ -168,6 +168,11 @@ const CreateListStep2 = () => {
   };
 
   const handleCancelButton = () => {
+    if (mode === 'editList') {
+      router.push('/');
+      return;
+    }
+
     router.push('/create-list/step-1');
   };
 
@@ -262,7 +267,9 @@ const CreateListStep2 = () => {
             className='cancel-button'
             onClick={handleCancelButton}
           >
-            Cancel and start over
+            {mode === 'editList'
+              ? 'Cancel and go back to lists'
+              : 'Cancel and start over'}
           </button>
         </section>
       </form>
@@ -277,4 +284,4 @@ const CreateListStep2 = () => {
   );
 };
 
-export default CreateListStep2;
+export default CreateOrEditList;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCreateListForm } from '../../app/context/CreateListFormContext';
+import { useList } from '../../app/context/CreateListFormContext';
 
 import '../styles/controlPanel.scss';
 
@@ -11,8 +11,7 @@ const ControlPanel = () => {
   const [showListActions, setShowListActions] = useState(false);
 
   const router = useRouter();
-  const { editedListIds, saveEditedLists, selectedListId } =
-    useCreateListForm();
+  const { editedListIds, saveEditedLists, selectedListId } = useList();
   const totalChanges = editedListIds.length;
   const hasUnsavedChanges = editedListIds.length > 0;
 

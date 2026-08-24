@@ -16,13 +16,13 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import SortableItem from './SortableItem';
-import { useCreateListForm } from '../../app/context/CreateListFormContext';
+import { useList } from '../../app/context/CreateListFormContext';
 
 import '../styles/list.scss';
 
 const List = () => {
   const { lists, selectedListId, setLists, isLoading, syncEditedState } =
-    useCreateListForm();
+    useList();
   const activeList = lists.find((list) => list.id === selectedListId);
 
   // This MUST come before any conditionals since it is a hook - one of the rules of hooks

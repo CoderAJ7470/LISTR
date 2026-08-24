@@ -21,7 +21,7 @@ type List = {
   items: ListItem[];
 };
 
-interface CreateListFormContextType {
+interface ListContextType {
   listName: string;
   setListName: (name: string) => void;
   numberOfItems: number;
@@ -40,17 +40,13 @@ interface CreateListFormContextType {
   saveEditedLists: () => Promise<void>;
 }
 
-const CreateListFormContext = createContext<
-  CreateListFormContextType | undefined
->(undefined);
+const ListContext = createContext<ListContextType | undefined>(undefined);
 
-export const useCreateListForm = () => {
-  const context = useContext(CreateListFormContext);
+export const useList = () => {
+  const context = useContext(ListContext);
 
   if (!context) {
-    throw new Error(
-      'useCreateListForm must be used within the CreateListFormProvider',
-    );
+    throw new Error('useList must be used within the ListProvider');
   }
 
   return context;
@@ -169,7 +165,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   }, []);
 
   return (
-    <CreateListFormContext.Provider
+    <ListContext.Provider
       value={{
         listName,
         setListName,
@@ -190,6 +186,6 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
       }}
     >
       {children}
-    </CreateListFormContext.Provider>
+    </ListContext.Provider>
   );
 };
