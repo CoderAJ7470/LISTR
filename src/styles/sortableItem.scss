@@ -16,6 +16,7 @@
     & .drag-handle-wrapper {
       padding-left: 0.2rem;
       border-left: 1px solid var(--off-black);
+      touch-action: none;
     }
   }
 
