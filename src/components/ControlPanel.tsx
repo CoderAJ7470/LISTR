@@ -3,17 +3,22 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useList } from '../../app/context/CreateListFormContext';
+import DeleteListModal from './DeleteListModal';
 
 import '../styles/controlPanel.scss';
+import '../styles/deleteListModal.scss';
 
 const ControlPanel = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [showListActions, setShowListActions] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const router = useRouter();
-  const { editedListIds, saveEditedLists, selectedListId } = useList();
+  const { editedListIds, saveEditedLists, selectedListId, lists } = useList();
   const totalChanges = editedListIds.length;
   const hasUnsavedChanges = editedListIds.length > 0;
+
+  const listName = lists.find((list) => list.id === selectedListId)?.listName;
 
   const listActionsButtonRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +78,12 @@ const ControlPanel = () => {
             Edit Current List
           </button>
 
-          <button className='list-actions-button-menu-item'>Test Button</button>
+          <button
+            className='list-actions-button-menu-item'
+            onClick={() => setShowDeleteModal(true)}
+          >
+            Delete Current List
+          </button>
         </div>
       </div>
 
@@ -91,6 +101,10 @@ const ControlPanel = () => {
           {hasUnsavedChanges && totalChanges}
         </span>
       </button>
+
+      {showDeleteModal && selectedListId && (
+        <DeleteListModal listId={selectedListId} listName={listName} />
+      )}
     </div>
   );
 };
