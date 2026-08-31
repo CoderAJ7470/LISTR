@@ -103,7 +103,11 @@ const ControlPanel = () => {
       </button>
 
       {showDeleteModal && selectedListId && (
-        <DeleteListModal listId={selectedListId} listName={listName} />
+        <DeleteListModal
+          listId={selectedListId}
+          listName={listName}
+          setShowDeleteModal={setShowDeleteModal}
+        />
       )}
     </div>
   );
