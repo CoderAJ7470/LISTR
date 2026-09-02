@@ -30,6 +30,8 @@ interface ListContextType {
   setLists: React.Dispatch<React.SetStateAction<List[]>>;
   selectedListId: string | null;
   setSelectedListId: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedItemIds: string[];
+  setSelectedItemIds: React.Dispatch<React.SetStateAction<string[]>>;
   isLoading: boolean;
   editedListIds: string[];
   markListEdited: (listId: string) => void;
@@ -61,6 +63,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [numberOfItems, setNumberOfItems] = useState(0);
   const [lists, setLists] = useState<List[]>([]);
   const [selectedListId, setSelectedListId] = useState<string | null>(null);
+  const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedListIds, setEditedListIds] = useState<string[]>([]);
 
@@ -77,7 +80,6 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   };
 
   const markListUnedited = (listId: string) => {
-    console.log('marked as unedited');
     setEditedListIds((prev) => prev.filter((id) => id !== listId));
   };
 
@@ -175,6 +177,8 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         setLists,
         selectedListId,
         setSelectedListId,
+        selectedItemIds,
+        setSelectedItemIds,
         isLoading,
         editedListIds,
         markListEdited,

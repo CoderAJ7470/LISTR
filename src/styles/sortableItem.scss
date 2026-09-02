@@ -1,19 +1,24 @@
 .all-list-items {
   margin: 1rem 0;
-  border: 1px solid var(--off-black);
+  border: 2px solid var(--off-black);
   border-radius: 5px;
   padding: 0.5rem;
 
-  & .top-section {
+  &.selected-for-deletion {
+    border: 2px solid var(--required-or-warning);
+    box-shadow: 0 0 6px var(--required-or-warning);
+  }
+
+  .top-section {
     display: flex;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--off-black);
 
-    & .top-section-text {
+    .top-section-text {
       flex-grow: 1;
     }
 
-    & .drag-handle-wrapper {
+    .drag-handle-wrapper {
       width: 2.5rem;
       padding-left: 0.2rem;
       border-left: 1px solid var(--off-black);
@@ -26,7 +31,7 @@
     }
   }
 
-  & .bottom-section {
+  .bottom-section {
     padding-top: 0.5rem;
   }
 }

@@ -56,26 +56,30 @@
   transition:
     opacity 300ms ease,
     visibility 0ms linear 300ms;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+      opacity 300ms ease,
+      visibility 0ms linear 0ms;
+  }
 }
 
-.list-actions-button-menu.visible {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-
-  transition:
-    opacity 300ms ease,
-    visibility 0ms linear 0ms;
-}
-
-.list-actions-button-menu-item {
+.list-actions-buttons {
   background-color: var(--white);
   color: var(--black);
   border: 1px solid black;
   border-radius: 5px;
   padding: 0.35rem 0.6rem;
   text-align: left;
-  cursor: pointer;
+
+  &.delete-items-button:disabled {
+    color: var(--disabled-text);
+    background-color: var(--disabled-background);
+  }
 
   &:active {
     color: var(--white);

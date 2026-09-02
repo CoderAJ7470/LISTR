@@ -14,7 +14,13 @@ const ControlPanel = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const router = useRouter();
-  const { editedListIds, saveEditedLists, selectedListId, lists } = useList();
+  const {
+    editedListIds,
+    saveEditedLists,
+    selectedListId,
+    lists,
+    selectedItemIds,
+  } = useList();
   const totalChanges = editedListIds.length;
   const hasUnsavedChanges = editedListIds.length > 0;
 
@@ -68,7 +74,7 @@ const ControlPanel = () => {
           }`}
         >
           <button
-            className='list-actions-button-menu-item'
+            className='list-actions-buttons'
             onClick={() =>
               router.push(
                 `/create-list/step-2?mode=editList&listId=${selectedListId}`,
@@ -79,10 +85,18 @@ const ControlPanel = () => {
           </button>
 
           <button
-            className='list-actions-button-menu-item'
+            className='list-actions-buttons'
             onClick={() => setShowDeleteModal(true)}
           >
             Delete Current List
+          </button>
+
+          <button
+            className='list-actions-buttons delete-items-button'
+            onClick={() => setShowDeleteModal(true)}
+            disabled={selectedItemIds.length === 0}
+          >
+            Delete List Items
           </button>
         </div>
       </div>
