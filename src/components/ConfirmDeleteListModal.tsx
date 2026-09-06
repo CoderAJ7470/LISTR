@@ -8,7 +8,7 @@ interface DeleteModalProps {
   setShowDeleteModal: (isOpen: boolean) => void;
 }
 
-const DeleteListModal = ({
+const ConfirmDeleteListModal = ({
   listId,
   listName,
   setShowDeleteModal,
@@ -58,4 +58,4 @@ const DeleteListModal = ({
   );
 };
 
-export default DeleteListModal;
+export default ConfirmDeleteListModal;

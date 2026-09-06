@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useList } from '../../app/context/CreateListFormContext';
-import DeleteListModal from './DeleteListModal';
+import ConfirmDeleteListModal from './ConfirmDeleteListModal';
+import ConfirmDeleteSelectedItems from './ConfirmDeleteSelectedItems';
 
 import '../styles/controlPanel.scss';
 import '../styles/deleteListModal.scss';
@@ -12,6 +13,7 @@ const ControlPanel = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [showListActions, setShowListActions] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteItemsModal, setShowDeleteItemsModal] = useState(false);
 
   const router = useRouter();
   const {
@@ -93,7 +95,7 @@ const ControlPanel = () => {
 
           <button
             className='list-actions-buttons delete-items-button'
-            onClick={() => setShowDeleteModal(true)}
+            onClick={() => setShowDeleteItemsModal(true)}
             disabled={selectedItemIds.length === 0}
           >
             Delete List Items
@@ -116,11 +118,19 @@ const ControlPanel = () => {
         </span>
       </button>
 
+      {/* Programmatically render the ConfirmDeleteList modal */}
       {showDeleteModal && selectedListId && (
-        <DeleteListModal
+        <ConfirmDeleteListModal
           listId={selectedListId}
           listName={listName}
           setShowDeleteModal={setShowDeleteModal}
+        />
+      )}
+
+      {/* Programmatically render the ConfirmDeleteSelectedItems modal */}
+      {showDeleteItemsModal && (
+        <ConfirmDeleteSelectedItems
+          setShowDeleteItemsModal={setShowDeleteItemsModal}
         />
       )}
     </div>
