@@ -1,7 +1,7 @@
 'use client';
 import { useState, type SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
-import { useList } from '../../context/CreateListFormContext';
+import { useList } from '../../context/ListContext';
 import {
   validateListName,
   validateNumberOfItems,

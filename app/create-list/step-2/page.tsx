@@ -3,7 +3,7 @@
 import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useList } from '../../context/CreateListFormContext';
+import { useList } from '../../context/ListContext';
 import { v4 as uuidv4 } from 'uuid';
 import { databases } from '../../../src/lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../../../src/lib/constants';
@@ -34,6 +34,7 @@ const CreateOrEditList = () => {
     Array.from({ length: numberOfItems }, () => ({
       id: uuidv4(),
       itemText: '',
+      completed: false,
     })),
   );
 
@@ -49,7 +50,12 @@ const CreateOrEditList = () => {
 
   useEffect(() => {
     if (mode === 'editList' && currentList) {
-      setItems(currentList.items);
+      setItems(
+        currentList.items.map((item) => ({
+          ...item,
+          completed: item.completed ?? false,
+        })),
+      );
     }
   }, [mode, currentList]);
 
@@ -71,6 +77,7 @@ const CreateOrEditList = () => {
       ...Array.from({ length: safeAmount }, () => ({
         id: uuidv4(),
         itemText: '',
+        completed: false,
       })),
     ]);
   };

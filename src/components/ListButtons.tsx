@@ -1,4 +1,4 @@
-import { useList } from '../../app/context/CreateListFormContext';
+import { useList } from '../../app/context/ListContext';
 
 import '../styles/listButtons.scss';
 
@@ -16,8 +16,6 @@ const ListButtons = () => {
           {list.listName}
         </button>
       ))}
-      {/* {<button className='list-buttons'>Test Button</button>}
-      {<button className='list-buttons'>Test Button</button>} */}
     </div>
   );
 };

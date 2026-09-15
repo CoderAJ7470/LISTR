@@ -1,6 +1,6 @@
 // /app/layout.tsx
 import type { ReactNode } from 'react';
-import { CreateListFormProvider } from './context/CreateListFormContext';
+import { CreateListFormProvider } from './context/ListContext';
 
 import '../src/styles/main.scss';
 import '../src/styles/wrapper.scss';

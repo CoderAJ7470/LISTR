@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import SortableItem from './SortableItem';
-import { useList } from '../../app/context/CreateListFormContext';
+import { useList } from '../../app/context/ListContext';
 
 import '../styles/list.scss';
 
@@ -53,7 +53,7 @@ const List = () => {
       if (!over || active.id === over.id) return;
 
       setLists((prevLists) => {
-        let updatedList: any = null;
+        let updatedList: (typeof prevLists)[number] | null = null;
 
         const updatedLists = prevLists.map((list) => {
           if (list.id !== selectedListId) return list;
@@ -117,6 +117,7 @@ const List = () => {
                 key={item.id}
                 id={item.id}
                 itemText={item.itemText}
+                completed={item.completed}
               />
             ))}
           </ul>

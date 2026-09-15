@@ -13,6 +13,7 @@ import { DATABASE_ID, TABLE_ID } from '../../src/lib/constants';
 type ListItem = {
   id: string;
   itemText: string;
+  completed: boolean;
 };
 
 type List = {
@@ -40,6 +41,11 @@ interface ListContextType {
   compareLists: List[];
   setCompareLists: React.Dispatch<React.SetStateAction<List[]>>;
   saveEditedLists: () => Promise<void>;
+  saveItemsMarkedAsComplete: (
+    listId: string,
+    itemId: string,
+    completed: boolean,
+  ) => Promise<void>;
 }
 
 const ListContext = createContext<ListContextType | undefined>(undefined);
@@ -129,6 +135,24 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
     }
   };
 
+  const saveItemsMarkedAsComplete = async (
+    listId: string,
+    itemId: string,
+    completed: boolean,
+  ) => {
+    const list = lists.find((list) => list.id === listId);
+
+    if (!list) return;
+
+    const updatedItems = list.items.map((item) =>
+      item.id === itemId ? { ...item, completed } : item,
+    );
+
+    await databases.updateDocument(DATABASE_ID, TABLE_ID, listId, {
+      items: JSON.stringify(updatedItems),
+    });
+  };
+
   useEffect(() => {
     if (lists.length === 0) {
       setSelectedListId(null);
@@ -147,11 +171,20 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
       setIsLoading(true);
       const response = await databases.listDocuments(DATABASE_ID, TABLE_ID);
 
-      const formattedList = response.documents.map((document) => ({
-        id: document.$id,
-        listName: document.listName,
-        items: document.items ? JSON.parse(document.items) : [],
-      }));
+      const formattedList = response.documents.map((document) => {
+        const parsedItems = document.items ? JSON.parse(document.items) : [];
+
+        console.log('Items from Appwrite:', parsedItems);
+
+        return {
+          id: document.$id,
+          listName: document.listName,
+          items: parsedItems.map((item: ListItem) => ({
+            ...item,
+            completed: item.completed ?? false,
+          })),
+        };
+      });
 
       setLists(formattedList);
       setCompareLists(formattedList);
@@ -187,6 +220,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         setCompareLists,
         syncEditedState,
         saveEditedLists,
+        saveItemsMarkedAsComplete,
       }}
     >
       {children}

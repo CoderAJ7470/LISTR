@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useList } from '../../app/context/CreateListFormContext';
+import { useList } from '../../app/context/ListContext';
 import ConfirmDeleteListModal from './ConfirmDeleteListModal';
 import ConfirmDeleteSelectedItems from './ConfirmDeleteSelectedItems';
 
