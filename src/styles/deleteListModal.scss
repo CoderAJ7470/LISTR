@@ -27,7 +27,7 @@
 
     .yes-button {
       color: var(--white);
-      background-color: var(--sky-blue);
+      background-color: var(--required-or-warning);
       margin-right: 0.8rem;
       border: none;
       padding: 0.5rem;
@@ -35,9 +35,9 @@
     }
 
     .cancel-button {
-      color: var(--white);
-      background-color: var(--required-or-warning);
-      border: none;
+      color: var(--off-black);
+      background-color: var(--white);
+      border: 1px solid var(--off-black);
       padding: 0.5rem;
       border-radius: 5px;
     }

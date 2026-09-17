@@ -18,30 +18,21 @@
       flex-grow: 1;
 
       .completed-item {
-        position: relative;
+        background-image: linear-gradient(var(--off-black), var(--off-black));
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: 0% 2px;
 
-        &::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 50%;
-          width: 0;
-          height: 2px;
-          background-color: currentColor;
-          transform: translateY(-50%);
+        &.is-completed {
+          background-size: 100% 2px;
         }
 
-        &.is-completed::after {
-          width: 100%;
-        }
-
-        &.is-completed.interacted::after {
-          width: 0;
+        &.is-completed.interacted {
           animation: strike-through 0.3s ease-out forwards;
         }
 
-        &.not-completed.interacted::after {
-          width: 100%;
+        &.not-completed.interacted {
+          background-size: 100% 2px;
           animation: strike-through-remove 0.3s ease-out forwards;
         }
       }
@@ -77,20 +68,20 @@
 
 @keyframes strike-through {
   from {
-    width: 0;
+    background-size: 0% 2px;
   }
 
   to {
-    width: 100%;
+    background-size: 100% 2px;
   }
 }
 
 @keyframes strike-through-remove {
   from {
-    width: 100%;
+    background-size: 100% 2px;
   }
 
   to {
-    width: 0;
+    background-size: 0% 2px;
   }
 }
