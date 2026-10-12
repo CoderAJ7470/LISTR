@@ -43,11 +43,6 @@ const CreateOrEditList = () => {
   // First input-specific error (required)
   const [firstItemError, setFirstItemError] = useState('');
 
-  // KEEP FOR NOW; TO BE REMOVED LATER
-  useEffect(() => {
-    console.log('Appwrite client initialized:', databases);
-  }, []);
-
   useEffect(() => {
     if (mode === 'editList' && currentList) {
       setItems(

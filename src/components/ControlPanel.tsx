@@ -108,7 +108,7 @@ const ControlPanel = () => {
         disabled={isMounted ? !hasUnsavedChanges : false}
         onClick={() => saveEditedLists()}
       >
-        Save changes
+        Save reorder changes
         <span
           className={`alert-on-save-changes-button ${
             hasUnsavedChanges ? 'alert-visible' : ''

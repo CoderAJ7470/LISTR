@@ -1,6 +1,7 @@
-// /app/layout.tsx
 import type { ReactNode } from 'react';
 import { CreateListFormProvider } from './context/ListContext';
+import NotificationsSlideout from '../src/components/NotificationsSlideout';
+import { NotificationsSlideoutProvider } from './context/NotificationsSlideoutContext';
 
 import '../src/styles/main.scss';
 import '../src/styles/wrapper.scss';
@@ -15,11 +16,14 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en'>
-      <CreateListFormProvider>
-        <body>
-          <div className='wrapper'>{children}</div>
-        </body>
-      </CreateListFormProvider>
+      <NotificationsSlideoutProvider>
+        <CreateListFormProvider>
+          <body>
+            <div className='wrapper'>{children}</div>
+            <NotificationsSlideout />
+          </body>
+        </CreateListFormProvider>
+      </NotificationsSlideoutProvider>
     </html>
   );
 }

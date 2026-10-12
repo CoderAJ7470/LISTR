@@ -1,0 +1,56 @@
+.notification-slideout {
+  position: fixed;
+  top: 60px;
+  right: 15px;
+  transition: right 0.5s ease;
+  border-top: 2px solid var(--off-black);
+  border-left: 2px solid var(--off-black);
+  border-right: 2px solid var(--off-black);
+
+  &.hidden {
+    right: -300px;
+  }
+}
+
+.notification-slideout-main-content {
+  display: flex;
+  padding-left: 0.5rem;
+  background-color: var(--white);
+  align-items: center;
+  font-size: 0.8rem;
+
+  .notification-slideout-message {
+    margin-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.notification-slideout-close-button {
+  align-self: stretch;
+  border: none;
+  background-color: var(--white);
+  margin-right: 0.5rem;
+
+  &:active {
+    background-color: var((--required-or-warning));
+  }
+}
+
+.timer-bar-wrapper {
+  height: 4px;
+  background-color: var(--action-color-green);
+}
+
+.timer-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #4caf50;
+  animation: timer-progress 5s linear forwards;
+}
+
+@keyframes timer-progress {
+  to {
+    width: 100%;
+  }
+}

@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useNotifications } from './NotificationsSlideoutContext';
 import { databases } from '../../src/lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../../src/lib/constants';
 
@@ -72,6 +73,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editedListIds, setEditedListIds] = useState<string[]>([]);
+  const { showNotification } = useNotifications();
 
   // baseline/pre-change state to compare any list against changes made by the user, so
   // that if the user makes one/more changes, then reverts back to the original
@@ -130,6 +132,8 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
       );
 
       setEditedListIds([]);
+
+      showNotification('success', 'Successfully saved list reordering');
     } catch (error) {
       console.error('Failed to save edited lists:', error);
     }
