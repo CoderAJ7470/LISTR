@@ -4,6 +4,7 @@ import AddMoreInputsModal from '../../../src/components/AddMoreInputsModal';
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useList } from '../../context/ListContext';
+import { useNotifications } from '../../context/NotificationsSlideoutContext';
 import { v4 as uuidv4 } from 'uuid';
 import { databases } from '../../../src/lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../../../src/lib/constants';
@@ -21,6 +22,7 @@ const CreateOrEditList = () => {
     setSelectedListId,
     setCompareLists,
   } = useList();
+  const { showNotification } = useNotifications();
 
   const router = useRouter();
 
@@ -80,6 +82,7 @@ const CreateOrEditList = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // If the user is editing a current list instead of creating a new one
     if (mode === 'editList') {
       if (!currentList) return;
 
@@ -105,6 +108,12 @@ const CreateOrEditList = () => {
       // Need to update the compareLists as well in order to ensure that re-ordering updates the comparison state correctly i.e. to make sure the Save changes button and its alert display correctly
       setCompareLists((prev) =>
         prev.map((list) => (list.id === updatedList.id ? updatedList : list)),
+      );
+
+      // Tell the user the list has been updated successfully
+      showNotification(
+        'success',
+        `Successfully updated list ${updatedList.listName}.`,
       );
 
       // Return to the homepage
@@ -165,6 +174,12 @@ const CreateOrEditList = () => {
 
     // Clear first-item error if any
     setFirstItemError('');
+
+    // Tell the user the list has been created successfully
+    showNotification(
+      'success',
+      `Successfully created\nnew list ${newlyCreatedListFromAppwrite.listName}.`,
+    );
 
     router.push('/');
   };

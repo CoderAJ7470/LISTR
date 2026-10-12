@@ -8,6 +8,9 @@ import '../styles/notificationsSlideout.scss';
 const NotificationsSlideout = () => {
   const [isHidden, setIsHidden] = useState(true);
   const [timerKey, setTimerKey] = useState(0);
+  const [timerWrapperVisibleClassname, setTimerWrapperVisibleClassname] =
+    useState('');
+  const [timerVisibleClassname, setTimerVisibleClassname] = useState('');
 
   const { notification } = useNotifications();
 
@@ -15,6 +18,11 @@ const NotificationsSlideout = () => {
     if (notification) {
       setIsHidden(false);
       setTimerKey((prevKey) => prevKey + 1);
+
+      if (notification.type === 'success') {
+        setTimerWrapperVisibleClassname('success');
+        setTimerVisibleClassname('success-timer');
+      }
     }
   }, [notification]);
 
@@ -40,10 +48,10 @@ const NotificationsSlideout = () => {
         </button>
       </div>
 
-      <div className='timer-bar-wrapper'>
+      <div className={`timer-bar-wrapper ${timerWrapperVisibleClassname}`}>
         <div
           key={timerKey}
-          className='timer-bar'
+          className={`timer-bar ${timerVisibleClassname}`}
           onAnimationEnd={() => setIsHidden(true)}
         ></div>
       </div>

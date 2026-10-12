@@ -23,6 +23,7 @@
     margin-right: 0.5rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    white-space: pre-line;
   }
 }
 
@@ -30,7 +31,7 @@
   align-self: stretch;
   border: none;
   background-color: var(--white);
-  margin-right: 0.5rem;
+  width: 2rem;
 
   &:active {
     background-color: var((--required-or-warning));
@@ -39,14 +40,20 @@
 
 .timer-bar-wrapper {
   height: 4px;
-  background-color: var(--action-color-green);
+
+  &.success {
+    background-color: var(--action-color-green);
+  }
 }
 
 .timer-bar {
   height: 100%;
   width: 0%;
-  background-color: #4caf50;
   animation: timer-progress 5s linear forwards;
+
+  &.success-timer {
+    background-color: #4caf50;
+  }
 }
 
 @keyframes timer-progress {
