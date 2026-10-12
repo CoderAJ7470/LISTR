@@ -113,7 +113,7 @@ const CreateOrEditList = () => {
       // Tell the user the list has been updated successfully
       showNotification(
         'success',
-        `Successfully updated list ${updatedList.listName}.`,
+        `Successfully updated\nlist ${updatedList.listName}.`,
       );
 
       // Return to the homepage
