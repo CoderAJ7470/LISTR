@@ -116,6 +116,7 @@ const SortableItem = ({
           </div>
         </div>
         <div className='bottom-section'>
+          <button className='item-associated-links'>Links</button>
           <i
             className='fa-solid fa-trash-can'
             onClick={handleDeleteClick}

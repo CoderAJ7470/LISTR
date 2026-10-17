@@ -62,7 +62,21 @@
   }
 
   .bottom-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     padding-top: 0.5rem;
+
+    .item-associated-links {
+      border: none;
+      color: var(--sky-blue);
+      background-color: var(--white);
+      cursor: pointer;
+
+      &:active {
+        transform: scale(0.96);
+      }
+    }
   }
 }
 
