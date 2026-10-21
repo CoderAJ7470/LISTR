@@ -8,6 +8,8 @@ import {
   type ReactNode,
 } from 'react';
 import { useNotifications } from './NotificationsSlideoutContext';
+import { v4 as uuidv4 } from 'uuid';
+import { MAX_LINKS_PER_ITEM } from '../../src/helpers/addNewLinkFormValidation';
 import { databases } from '../../src/lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../../src/lib/constants';
 
@@ -15,12 +17,19 @@ type ListItem = {
   id: string;
   itemText: string;
   completed: boolean;
+  links?: ItemLink[];
 };
 
 type List = {
   id: string;
   listName: string;
   items: ListItem[];
+};
+
+type ItemLink = {
+  id: string;
+  name: string;
+  url: string;
 };
 
 interface ListContextType {
@@ -46,6 +55,11 @@ interface ListContextType {
     listId: string,
     itemId: string,
     completed: boolean,
+  ) => Promise<void>;
+  addLinkToItem: (
+    listId: string,
+    itemId: string,
+    link: Omit<ItemLink, 'id'>,
   ) => Promise<void>;
 }
 
@@ -139,6 +153,60 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
     }
   };
 
+  /**
+   * Adds a new link for a particular item. This is done by the user and is optional.
+   * @param listId - The id of the list which contains the item
+   * @param itemId - The id of the item to which a link is being added
+   * @param link - The link added by the user
+   */
+  const addLinkToItem = async (
+    listId: string,
+    itemId: string,
+    link: Omit<ItemLink, 'id'>,
+  ) => {
+    const list = lists.find((currentList) => currentList.id === listId);
+    const item = list?.items.find((currentItem) => currentItem.id === itemId);
+
+    if (!list || !item) {
+      throw new Error('List item not found.');
+    }
+
+    const currentLinks = item.links ?? [];
+
+    if (currentLinks.length >= MAX_LINKS_PER_ITEM) {
+      throw new Error('Maximum number of links reached for this item.');
+    }
+
+    const updatedItems = list.items.map((currentItem) =>
+      currentItem.id === itemId
+        ? {
+            ...currentItem,
+            links: [...currentLinks, { id: uuidv4(), ...link }],
+          }
+        : currentItem,
+    );
+
+    await databases.updateDocument(DATABASE_ID, TABLE_ID, listId, {
+      items: JSON.stringify(updatedItems),
+    });
+
+    setLists((currentLists) =>
+      currentLists.map((currentList) =>
+        currentList.id === listId
+          ? { ...currentList, items: updatedItems }
+          : currentList,
+      ),
+    );
+
+    setCompareLists((currentLists) =>
+      currentLists.map((currentList) =>
+        currentList.id === listId
+          ? { ...currentList, items: updatedItems }
+          : currentList,
+      ),
+    );
+  };
+
   const saveItemsMarkedAsComplete = async (
     listId: string,
     itemId: string,
@@ -186,6 +254,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
           items: parsedItems.map((item: ListItem) => ({
             ...item,
             completed: item.completed ?? false,
+            links: item.links ?? [],
           })),
         };
       });
@@ -225,6 +294,7 @@ export const CreateListFormProvider = ({ children }: ProviderProps) => {
         syncEditedState,
         saveEditedLists,
         saveItemsMarkedAsComplete,
+        addLinkToItem,
       }}
     >
       {children}

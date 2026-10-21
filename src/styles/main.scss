@@ -8,6 +8,7 @@
   --disabled-background: grey;
   --disabled-text: #4b4b4b;
   --white: #fff;
+  --success: #4caf50;
   --required-or-warning: #bd0000;
 
   // for user actions
@@ -31,4 +32,9 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+.required-asterisks {
+  font-size: 1.2rem;
+  color: var(--required-or-warning);
 }

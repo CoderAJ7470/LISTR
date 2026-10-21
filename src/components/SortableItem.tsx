@@ -12,6 +12,8 @@ type SortableItemProps = {
   itemText: string;
   listName: string;
   completed: boolean;
+  onOpenLinks: () => void;
+  linkCount: number;
 };
 
 const SortableItem = ({
@@ -19,6 +21,8 @@ const SortableItem = ({
   itemText,
   listName,
   completed,
+  onOpenLinks,
+  linkCount,
 }: SortableItemProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -116,7 +120,23 @@ const SortableItem = ({
           </div>
         </div>
         <div className='bottom-section'>
-          <button className='item-associated-links'>Links</button>
+          <button
+            className='item-associated-links-button'
+            type='button'
+            onClick={onOpenLinks}
+            aria-label={
+              linkCount > 0
+                ? `Open item links, ${linkCount} saved`
+                : 'Open item links'
+            }
+          >
+            Links
+            {linkCount > 0 && (
+              <span className='item-links-count-alert' aria-hidden='true'>
+                {linkCount}
+              </span>
+            )}
+          </button>
           <i
             className='fa-solid fa-trash-can'
             onClick={handleDeleteClick}

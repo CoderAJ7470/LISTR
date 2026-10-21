@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
-type NotificationType = 'success';
+type NotificationType = 'success' | 'error';
 
 interface Notification {
   type: NotificationType;

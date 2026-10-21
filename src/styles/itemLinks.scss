@@ -1,0 +1,44 @@
+.item-links {
+  p {
+    margin-top: 0px;
+  }
+
+  .add-links-modal-title {
+    margin: 0 0 0.5rem 0;
+  }
+}
+
+.add-new-links-form-button {
+  background-color: var(--white);
+  padding: 0.2rem 0.3rem;
+  border: 2px solid var(--action-color-green);
+  border-radius: 5px;
+}
+
+.add-link-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+
+  input {
+    margin-bottom: 0.5rem;
+  }
+
+  .url-error-slot {
+    height: 1.3rem;
+  }
+
+  .url-error-message {
+    display: block;
+    color: var(--required-or-warning);
+  }
+
+  .add-link-form-buttons .add-link-button {
+    margin-right: 0.5rem;
+    color: var(--sky-blue);
+    background-color: var(--white);
+    border: 1px solid var(--off-black);
+    border-radius: 5px;
+    padding: 0.2rem 0.3rem;
+  }
+}

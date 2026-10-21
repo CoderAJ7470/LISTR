@@ -22,6 +22,9 @@ const NotificationsSlideout = () => {
       if (notification.type === 'success') {
         setTimerWrapperVisibleClassname('success');
         setTimerVisibleClassname('success-timer');
+      } else if (notification.type === 'error') {
+        setTimerWrapperVisibleClassname('error');
+        setTimerVisibleClassname('error-timer');
       }
     }
   }, [notification]);

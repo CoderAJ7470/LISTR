@@ -1,0 +1,33 @@
+.item-links-modal-mask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.item-links-modal {
+  display: flex;
+  flex-direction: column;
+  height: 53%;
+  width: 80%;
+  padding: 1rem;
+  border: 2px solid var(--off-black);
+  border-radius: 5px;
+  background: var(--white);
+}
+
+.item-links-cancel-button {
+  color: var(--off-black);
+  background-color: var(--white);
+  border: 1px solid var(--off-black);
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-top: auto;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

@@ -1,8 +1,9 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { arrayMove } from '@dnd-kit/sortable';
+import ItemLinksModal from './ItemLinksModal';
 import type { DragEndEvent } from '@dnd-kit/core';
 import {
   DndContext,
@@ -17,13 +18,43 @@ import {
 } from '@dnd-kit/sortable';
 import SortableItem from './SortableItem';
 import { useList } from '../../app/context/ListContext';
+import type { NewItemLink } from './ItemLinks';
+import { useNotifications } from '../../app/context/NotificationsSlideoutContext';
 
 import '../styles/list.scss';
 
 const List = () => {
-  const { lists, selectedListId, setLists, isLoading, syncEditedState } =
-    useList();
+  const {
+    lists,
+    selectedListId,
+    setLists,
+    isLoading,
+    syncEditedState,
+    addLinkToItem,
+  } = useList();
   const activeList = lists.find((list) => list.id === selectedListId);
+  const [activeLinksItemId, setActiveLinksItemId] = useState<string | null>(
+    null,
+  );
+
+  const { showNotification } = useNotifications();
+
+  const activeLinksItem = activeList?.items.find(
+    (item) => item.id === activeLinksItemId,
+  );
+
+  const handleAddLink = async (link: NewItemLink): Promise<boolean> => {
+    if (!activeList || !activeLinksItemId) return false;
+
+    try {
+      await addLinkToItem(activeList.id, activeLinksItemId, link);
+      return true;
+    } catch (error) {
+      console.error('Failed to save item link:', error);
+      showNotification('error', 'Unable to save link. Please try again.');
+      return false;
+    }
+  };
 
   // This MUST come before any conditionals since it is a hook - one of the rules of hooks
   const sensors = useSensors(
@@ -118,11 +149,20 @@ const List = () => {
                 id={item.id}
                 itemText={item.itemText}
                 completed={item.completed}
+                onOpenLinks={() => setActiveLinksItemId(item.id)}
+                linkCount={item.links?.length ?? 0}
               />
             ))}
           </ul>
         </SortableContext>
       </DndContext>
+      {activeLinksItem && (
+        <ItemLinksModal
+          links={activeLinksItem.links ?? []}
+          onAddLink={handleAddLink}
+          onClose={() => setActiveLinksItemId(null)}
+        />
+      )}
     </div>
   );
 };

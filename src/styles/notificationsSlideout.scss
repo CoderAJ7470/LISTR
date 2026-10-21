@@ -34,7 +34,7 @@
   width: 2rem;
 
   &:active {
-    background-color: var((--required-or-warning));
+    background-color: var(--required-or-warning);
   }
 }
 
@@ -44,6 +44,10 @@
   &.success {
     background-color: var(--action-color-green);
   }
+
+  &.error {
+    background-color: var(--required-or-warning);
+  }
 }
 
 .timer-bar {
@@ -52,7 +56,11 @@
   animation: timer-progress 5s linear forwards;
 
   &.success-timer {
-    background-color: #4caf50;
+    background-color: var(--success);
+  }
+
+  &.error-timer {
+    background-color: var(--required-or-warning);
   }
 }
 

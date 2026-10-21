@@ -96,16 +96,10 @@
   }
 }
 
-.required-asterisks {
-  font-size: 1.2rem;
-  color: var(--required-or-warning);
-}
-
 .step-1-error-message {
   color: var(--required-or-warning);
   white-space: nowrap;
   pointer-events: none;
-  border-radius: 4px;
   padding-bottom: 8px;
   font-size: 0.875rem;
   position: absolute;
