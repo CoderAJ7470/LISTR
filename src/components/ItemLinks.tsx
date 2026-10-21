@@ -79,7 +79,7 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
         <>
           <ol>
             {links.map((link) => (
-              <li key={link.id}>
+              <li key={link.id} className='user-added-links'>
                 <a href={link.url}>{link.name}</a>
               </li>
             ))}
@@ -150,7 +150,11 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
             </button>
 
             {links.length > 0 && (
-              <button type='button' onClick={() => setShowAddLinkForm(false)}>
+              <button
+                type='button'
+                className='cancel-adding-new-link'
+                onClick={() => setShowAddLinkForm(false)}
+              >
                 Cancel
               </button>
             )}

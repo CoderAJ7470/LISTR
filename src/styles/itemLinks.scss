@@ -6,6 +6,10 @@
   .add-links-modal-title {
     margin: 0 0 0.5rem 0;
   }
+
+  .user-added-links {
+    margin-bottom: 0.8rem;
+  }
 }
 
 .add-new-links-form-button {
@@ -36,6 +40,13 @@
   .add-link-form-buttons .add-link-button {
     margin-right: 0.5rem;
     color: var(--sky-blue);
+    background-color: var(--white);
+    border: 1px solid var(--off-black);
+    border-radius: 5px;
+    padding: 0.2rem 0.3rem;
+  }
+
+  .add-link-form-buttons .cancel-adding-new-link {
     background-color: var(--white);
     border: 1px solid var(--off-black);
     border-radius: 5px;
