@@ -80,7 +80,9 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
           <ol>
             {links.map((link) => (
               <li key={link.id} className='user-added-links'>
-                <a href={link.url}>{link.name}</a>
+                <a href={link.url} target='_blank' rel='noopener noreferrer'>
+                  {link.name}
+                </a>
               </li>
             ))}
           </ol>
