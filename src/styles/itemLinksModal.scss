@@ -17,6 +17,13 @@
   border: 2px solid var(--off-black);
   border-radius: 5px;
   background: var(--white);
+
+  > .item-links {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .item-links-cancel-button {
@@ -26,6 +33,7 @@
   padding: 0.5rem;
   border-radius: 5px;
   margin-top: auto;
+  flex-shrink: 0;
 
   &:active {
     transform: scale(0.98);
