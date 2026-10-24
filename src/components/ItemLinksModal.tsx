@@ -24,7 +24,7 @@ const ItemLinksModal = ({ links, onAddLink, onClose }: ItemLinksModalProps) => {
           type='button'
           onClick={onClose}
         >
-          Cancel
+          {links.length > 0 ? 'Close' : 'Cancel'}
         </button>
       </div>
     </div>

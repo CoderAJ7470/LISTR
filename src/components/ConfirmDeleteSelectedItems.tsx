@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useList } from '../../app/context/ListContext';
 import { databases } from '../lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../lib/constants';
@@ -9,6 +11,8 @@ interface ConfirmDeleteSelectedItemsProps {
 const ConfirmDeleteSelectedItems = ({
   setShowDeleteItemsModal,
 }: ConfirmDeleteSelectedItemsProps) => {
+  const [mounted, setMounted] = useState(false);
+
   const {
     lists,
     selectedListId,
@@ -16,6 +20,10 @@ const ConfirmDeleteSelectedItems = ({
     setLists,
     setSelectedItemIds,
   } = useList();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleDeleteSelectedItems = async () => {
     const selectedList = lists.find((list) => list.id === selectedListId);
@@ -46,7 +54,9 @@ const ConfirmDeleteSelectedItems = ({
     }
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className='delete-modal-overlay'
       onClick={() => {
@@ -81,7 +91,8 @@ const ConfirmDeleteSelectedItems = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
