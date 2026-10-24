@@ -28,6 +28,7 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
 
   const hasReachedLinkLimit = links.length >= MAX_LINKS_PER_ITEM;
   const showForm = links.length === 0 || showAddLinkForm;
+  const remainingLinks = MAX_LINKS_PER_ITEM - links.length;
 
   const handleAddLinkSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -66,17 +67,29 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
 
   return (
     <section className='item-links'>
-      <h3 className='add-links-modal-title'>Add Links for this list item</h3>
-
       {links.length === 0 ? (
-        <p>
-          You have not added any links for this list item. You may add a link
-          using the form below (<b>maximum 4 links</b>).{' '}
-          <span className='required-asterisks'>*</span> - denotes required
-          fields.
-        </p>
+        <>
+          <h3 className='add-links-modal-title'>
+            Add links for this list item
+          </h3>
+          <p>
+            You have not added any links for this list item. You may add a link
+            using the form below (<b>maximum 4 links</b>).{' '}
+            <span className='required-asterisks'>*</span> - denotes required
+            fields.
+          </p>
+        </>
       ) : (
         <>
+          <h3 className='add-links-modal-title'>
+            Current links for this list item.
+          </h3>
+          <p>
+            Showing links you have added for this list item.{' '}
+            {remainingLinks === 0
+              ? `You have reached the maximum of ${MAX_LINKS_PER_ITEM} links allowed and cannot add any more.`
+              : `You have ${remainingLinks} links left.`}
+          </p>
           <ol>
             {links.map((link) => (
               <li key={link.id} className='user-added-links'>

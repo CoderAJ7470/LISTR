@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useList } from '../../app/context/ListContext';
 import { databases } from '../lib/appwrite';
 import { DATABASE_ID, TABLE_ID } from '../lib/constants';
@@ -13,7 +15,13 @@ const ConfirmDeleteListModal = ({
   listName,
   setShowDeleteModal,
 }: DeleteModalProps) => {
+  const [mounted, setMounted] = useState(false);
+
   const { setLists } = useList();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleDeleteList = async () => {
     try {
@@ -26,7 +34,9 @@ const ConfirmDeleteListModal = ({
     }
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className='delete-modal-overlay'
       onClick={() => setShowDeleteModal(false)}
@@ -54,7 +64,8 @@ const ConfirmDeleteListModal = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
