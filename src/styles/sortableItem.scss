@@ -76,10 +76,16 @@
       border-radius: 5px;
       padding: 0.2rem 0.6rem;
       margin-right: 0.5rem;
+      font-size: 0.85rem;
       cursor: pointer;
 
       &:active {
         transform: scale(0.98);
+      }
+
+      .item-link-button-icon {
+        font-size: 0.7rem;
+        vertical-align: center;
       }
 
       .item-links-count-alert {
@@ -98,6 +104,22 @@
         font-size: 0.75rem;
         font-weight: bold;
         line-height: 1;
+      }
+    }
+
+    .item-reminders-button {
+      position: relative;
+      color: var(--sky-blue);
+      background-color: var(--white);
+      border: 1px solid var(--off-black);
+      border-radius: 5px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+
+      .item-reminders-icon {
+        font-size: 0.7rem;
+        vertical-align: center;
       }
     }
   }

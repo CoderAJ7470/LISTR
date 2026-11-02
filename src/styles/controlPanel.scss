@@ -104,14 +104,14 @@
 .alert-on-save-changes-button {
   color: var(--white);
   background-color: var(--required-or-warning);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: bold;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   position: absolute;
   border-radius: 50%;
-  top: -9px;
-  right: -8px;
+  top: -11px;
+  right: -13px;
   line-height: 16px;
   opacity: 0;
   visibility: hidden;

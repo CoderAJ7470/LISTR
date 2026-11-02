@@ -130,6 +130,9 @@ const SortableItem = ({
                 : 'Open item links'
             }
           >
+            <span>
+              <i className='fa-solid fa-link item-link-button-icon'></i>
+            </span>{' '}
             Links
             {linkCount > 0 && (
               <span className='item-links-count-alert' aria-hidden='true'>
@@ -137,6 +140,13 @@ const SortableItem = ({
               </span>
             )}
           </button>
+          {/* INITIAL SET UP FOR REMINDERS - WILL BE UNCOMMENTED SOON */}
+          {/* <button className='item-reminders-button'>
+            <span>
+              <i className='fa-regular fa-calendar-days item-reminders-icon'></i>
+            </span>{' '}
+            Reminders
+          </button> */}
           <i
             className='fa-solid fa-trash-can'
             onClick={handleDeleteClick}

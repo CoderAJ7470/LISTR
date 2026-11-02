@@ -3,6 +3,7 @@ import {
   MAX_LINKS_PER_ITEM,
   validateLinkURL,
 } from '../helpers/addNewLinkFormValidation';
+import truncateItemLinkText from '../helpers/truncateItemLinkText';
 
 import '../styles/itemLinks.scss';
 
@@ -15,11 +16,12 @@ export type ItemLink = {
 export type NewItemLink = Omit<ItemLink, 'id'>;
 
 type ItemLinksProps = {
+  itemName: string;
   links: ItemLink[];
   onAddLink: (link: NewItemLink) => Promise<boolean>;
 };
 
-const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
+const ItemLinks = ({ itemName, links, onAddLink }: ItemLinksProps) => {
   const [linkUrl, setLinkUrl] = useState('');
   const [linkName, setLinkName] = useState('');
   const [urlError, setURLError] = useState<string | null>(null);
@@ -70,11 +72,11 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
       {links.length === 0 ? (
         <>
           <h3 className='add-links-modal-title'>
-            Add links for this list item
+            Add links for list item "{itemName}"
           </h3>
           <p>
-            You have not added any links for this list item. You may add a link
-            using the form below (<b>maximum 4 links</b>).{' '}
+            You have not added any links for list item "{itemName}". You may add
+            a link using the form below (<b>maximum 4 links</b>).{' '}
             <span className='required-asterisks'>*</span> - denotes required
             fields.
           </p>
@@ -82,10 +84,10 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
       ) : (
         <>
           <h3 className='add-links-modal-title'>
-            Current links for this list item.
+            Current links for list item "{itemName}".
           </h3>
           <p>
-            Showing links you have added for this list item.{' '}
+            Showing links you have added for list item "{itemName}".{' '}
             {remainingLinks === 0
               ? `You have reached the maximum of ${MAX_LINKS_PER_ITEM} links allowed and cannot add any more.`
               : `You have ${remainingLinks} links left.`}
@@ -94,7 +96,7 @@ const ItemLinks = ({ links, onAddLink }: ItemLinksProps) => {
             {links.map((link) => (
               <li key={link.id} className='user-added-links'>
                 <a href={link.url} target='_blank' rel='noopener noreferrer'>
-                  {link.name}
+                  {truncateItemLinkText(link.name)}
                 </a>
               </li>
             ))}

@@ -158,6 +158,7 @@ const List = () => {
       </DndContext>
       {activeLinksItem && (
         <ItemLinksModal
+          itemName={activeLinksItem.itemText}
           links={activeLinksItem.links ?? []}
           onAddLink={handleAddLink}
           onClose={() => setActiveLinksItemId(null)}
