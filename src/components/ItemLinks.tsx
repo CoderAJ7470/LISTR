@@ -88,9 +88,11 @@ const ItemLinks = ({ itemName, links, onAddLink }: ItemLinksProps) => {
           </h3>
           <p>
             Showing links you have added for list item "{itemName}".{' '}
-            {remainingLinks === 0
-              ? `You have reached the maximum of ${MAX_LINKS_PER_ITEM} links allowed and cannot add any more.`
-              : `You can add ${remainingLinks === 1 ? `${remainingLinks} more link` : `${remainingLinks} more links`}.`}
+            <b>
+              {remainingLinks === 0
+                ? `You have reached the maximum of ${MAX_LINKS_PER_ITEM} links allowed and cannot add any more.`
+                : `You can add ${remainingLinks === 1 ? `${remainingLinks} more link` : `${remainingLinks} more links`}.`}
+            </b>
           </p>
           <ol>
             {links.map((link) => (
